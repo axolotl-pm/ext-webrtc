@@ -1,0 +1,23 @@
+ARG_ENABLE('webrtc', 'webrtc support', 'no');
+ARG_WITH('libdatachannel', 'Path to the libdatachannel install prefix', 'no');
+
+if (PHP_WEBRTC != 'no') {
+	// accept both an install prefix (include/, lib/) and a raw CMake build tree
+	var libdatachannel_include = PHP_LIBDATACHANNEL + '\\include';
+	var libdatachannel_lib =
+		PHP_LIBDATACHANNEL + '\\lib;' +
+		PHP_LIBDATACHANNEL + '\\build\\Release;' +
+		PHP_LIBDATACHANNEL + '\\Release';
+
+	if (
+		CHECK_HEADER_ADD_INCLUDE('rtc/rtc.hpp', 'CFLAGS_WEBRTC', libdatachannel_include) &&
+		CHECK_LIB('datachannel.lib', 'webrtc', libdatachannel_lib)
+	) {
+		AC_DEFINE('HAVE_WEBRTC', 1, 'webrtc support enabled');
+
+		EXTENSION('webrtc', 'webrtc.cpp', null, '/DZEND_ENABLE_STATIC_TSRMLS_CACHE=1 /EHsc /permissive- /std:c++20');
+		ADD_SOURCES(configure_module_dirname + '/classes', 'Enums.cpp IceServer.cpp DataChannel.cpp DataChannelOptions.cpp PeerConnectionOptions.cpp PeerConnection.cpp', 'webrtc');
+	} else {
+		WARNING('webrtc not enabled; libdatachannel not found in ' + PHP_LIBDATACHANNEL);
+	}
+}
