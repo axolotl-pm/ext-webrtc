@@ -12,7 +12,11 @@ extern "C" {
 #include "stubs/WebRtcException_arginfo.h"
 }
 
+#include <rtc/global.hpp>
 #include <rtc/version.h>
+
+#include <chrono>
+#include <future>
 
 extern "C" {
 #include "stubs/constants_arginfo.h"
@@ -64,6 +68,21 @@ PHP_MINIT_FUNCTION(webrtc) {
 	return SUCCESS;
 }
 
+PHP_MSHUTDOWN_FUNCTION(webrtc) {
+	try {
+		// libdatachannel maintains their global thread pool that outlives every connection.
+		// In here, we try calling a cleanup so that libdatachannel can cleanup all existing connections.
+		// Skipping this races the interpreter shutdown against those threads and segfaults after the
+		// script has already finished, so we leave a message here rather than let it look accidental.
+		if (rtc::Cleanup().wait_for(std::chrono::seconds(10)) == std::future_status::timeout) { // 10s timeout from libdatachannel C bindings
+			fprintf(stderr, "webrtc: timed out unloading libdatachannel\n");
+		}
+	} catch (...) {
+	}
+
+	return SUCCESS;
+}
+
 static const zend_module_dep module_dependencies[] = {
 	ZEND_MOD_REQUIRED("spl")
 	ZEND_MOD_END
@@ -77,7 +96,7 @@ zend_module_entry webrtc_module_entry = {
 	"webrtc",				/* Extension name */
 	NULL,					/* zend_function_entry */
 	PHP_MINIT(webrtc),		/* PHP_MINIT - Module initialization */
-	NULL,					/* PHP_MSHUTDOWN - Module shutdown */
+	PHP_MSHUTDOWN(webrtc),	/* PHP_MSHUTDOWN - Module shutdown */
 	PHP_RINIT(webrtc),		/* PHP_RINIT - Request initialization */
 	NULL,					/* PHP_RSHUTDOWN - Request shutdown */
 	PHP_MINFO(webrtc),		/* PHP_MINFO - Module info */
