@@ -17,10 +17,12 @@ var_dump($defaults->isIceTcpEnabled());
 $options = PeerConnectionOptions::create();
 var_dump($options->setMaxMessageSize(262144) === $options);
 
+$pem = __FILE__;
+
 $options
 	->setPortRange(50000, 50100)
 	->setBindAddress("127.0.0.1")
-	->setCertificate("cert.pem", "key.pem", "secret")
+	->setCertificate($pem, $pem, "secret")
 	->setIceTcpEnabled(true)
 	->setIceServers(
 		IceServer::stun("a.example.com"),
@@ -31,8 +33,8 @@ var_dump($options->getMaxMessageSize());
 var_dump($options->getPortRangeBegin());
 var_dump($options->getPortRangeEnd());
 var_dump($options->getBindAddress());
-var_dump($options->getCertificatePemFile());
-var_dump($options->getKeyPemFile());
+var_dump($options->getCertificatePemFile() === $pem);
+var_dump($options->getKeyPemFile() === $pem);
 var_dump($options->getKeyPemPass());
 var_dump($options->isIceTcpEnabled());
 
@@ -55,8 +57,8 @@ int(262144)
 int(50000)
 int(50100)
 string(9) "127.0.0.1"
-string(8) "cert.pem"
-string(7) "key.pem"
+bool(true)
+bool(true)
 string(6) "secret"
 bool(true)
 int(2)

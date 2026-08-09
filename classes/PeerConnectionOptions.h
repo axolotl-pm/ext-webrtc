@@ -12,6 +12,8 @@ extern "C" {
 #define OPTIONS_DEFAULT_MAX_RECEIVE_QUEUE (16 * 1024 * 1024)
 #define OPTIONS_DEFAULT_MAX_PENDING_DATA_CHANNELS 64
 
+#define OPTIONS_MAX_MESSAGE_SIZE_LIMIT (256 * 1024 * 1024)
+
 typedef struct _peer_connection_options_zend_object {
 	rtc::Configuration* config;
 	size_t max_receive_queue;

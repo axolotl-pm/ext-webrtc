@@ -15,6 +15,30 @@ try {
 }
 
 try {
+	$options->setMaxMessageSize(256 * 1024 * 1024 + 1);
+} catch (ValueError $e) {
+	echo $e->getMessage(), PHP_EOL;
+}
+
+try {
+	$options->setCertificate("cert.pem\0/../../secret.pem", "key.pem");
+} catch (ValueError $e) {
+	echo $e->getMessage(), PHP_EOL;
+}
+
+try {
+	$options->setCertificate(__DIR__ . "/no-such-cert.pem", __FILE__);
+} catch (ValueError $e) {
+	echo $e->getMessage(), PHP_EOL;
+}
+
+try {
+	$options->setCertificate(__FILE__, __DIR__ . "/no-such-key.pem");
+} catch (ValueError $e) {
+	echo $e->getMessage(), PHP_EOL;
+}
+
+try {
 	$options->setPortRange(0, 100);
 } catch (ValueError $e) {
 	echo $e->getMessage(), PHP_EOL;
@@ -39,7 +63,11 @@ try {
 }
 ?>
 --EXPECTF--
-%smust be greater than 0
+%smust be between 1 and 268435456
+%smust be between 1 and 268435456
+%smust not contain any null bytes
+%sArgument #1 ($certPemFile) must be a readable file ("%sno-such-cert.pem": no such file or directory)
+%sArgument #2 ($keyPemFile) must be a readable file ("%sno-such-key.pem": no such file or directory)
 %smust be between 1 and 65535
 %smust be between the start port and 65535
 TypeError

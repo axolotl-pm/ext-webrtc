@@ -34,6 +34,28 @@ static void options_free(zend_object* std) {
 	zend_object_std_dtor(&object->std);
 }
 
+static bool options_check_pem_file(zend_string* path, uint32_t arg_num) {
+	const char* reason;
+
+	if (php_check_open_basedir_ex(ZSTR_VAL(path), 0) != 0) {
+		reason = "path is restricted by PHP's open_basedir setting";
+	} else {
+		errno = 0;
+		if (VCWD_ACCESS(ZSTR_VAL(path), R_OK) == 0) {
+			return true;
+		}
+
+		switch (errno) {
+			case ENOENT: reason = "no such file or directory"; break;
+			case EACCES: reason = "permission denied"; break;
+			default: reason = "cannot be opened for reading"; break;
+		}
+	}
+
+	zend_argument_value_error(arg_num, "must be a readable file (\"%s\": %s)", ZSTR_VAL(path), reason);
+	return false;
+}
+
 #define OPTIONS_METHOD(name) PHP_METHOD(pmmp_webrtc_PeerConnectionOptions, name)
 
 OPTIONS_METHOD(__construct) {
@@ -55,8 +77,8 @@ OPTIONS_METHOD(setMaxMessageSize) {
 		Z_PARAM_LONG(bytes)
 	ZEND_PARSE_PARAMETERS_END();
 
-	if (bytes < 1) {
-		zend_argument_value_error(1, "must be greater than 0");
+	if (bytes < 1 || bytes > OPTIONS_MAX_MESSAGE_SIZE_LIMIT) {
+		zend_argument_value_error(1, "must be between 1 and %d", OPTIONS_MAX_MESSAGE_SIZE_LIMIT);
 		RETURN_THROWS();
 	}
 
@@ -194,11 +216,15 @@ OPTIONS_METHOD(setCertificate) {
 	zend_string* pass = NULL;
 
 	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 2, 3)
-		Z_PARAM_STR(cert_file)
-		Z_PARAM_STR(key_file)
+		Z_PARAM_PATH_STR(cert_file)
+		Z_PARAM_PATH_STR(key_file)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR_OR_NULL(pass)
 	ZEND_PARSE_PARAMETERS_END();
+
+	if (!options_check_pem_file(cert_file, 1) || !options_check_pem_file(key_file, 2)) {
+		RETURN_THROWS();
+	}
 
 	WEBRTC_TRY
 		auto config = OPTIONS_THIS()->config;

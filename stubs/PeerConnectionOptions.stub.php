@@ -19,6 +19,11 @@ final class PeerConnectionOptions
     /**
      * Maximum size in bytes of a single SCTP message. Emitted as
      * a=max-message-size in the local description.
+     *
+     * This also sizes the buffer a peer can make the transport allocate, so it
+     * is capped at 256 MiB.
+     *
+     * @throws \ValueError if the size is outside 1..268435456
      */
     public function setMaxMessageSize(int $bytes): PeerConnectionOptions {}
 
@@ -51,6 +56,15 @@ final class PeerConnectionOptions
      */
     public function setBindAddress(?string $address): PeerConnectionOptions {}
 
+    /**
+     * Use an existing certificate rather than generating one.
+     *
+     * Both files must be readable at this point, even though they are not
+     * parsed until a PeerConnection is constructed from these options.
+     *
+     * @throws \ValueError if a path contains a null byte, or names a file that
+     *                     cannot be read or that open_basedir puts out of reach
+     */
     public function setCertificate(string $certPemFile, string $keyPemFile, ?string $keyPemPass = null): PeerConnectionOptions {}
 
     /** Whether to gather TCP ICE candidates. Disabled by default. */
