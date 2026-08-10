@@ -8,6 +8,7 @@ extern "C" {
 #include "PeerConnectionOptions.h"
 #include "DataChannel.h"
 #include "DataChannelOptions.h"
+#include "IceCandidate.h"
 #include "Enums.h"
 #include "WebRtcException.h"
 
@@ -85,6 +86,16 @@ PEER_CONNECTION_METHOD(__construct) {
 		shared->max_pending_channels = options->max_pending_data_channels;
 		shared->receive_budget = std::make_shared<data_channel_budget>();
 		shared->receive_budget->max = options->max_receive_queue;
+
+		object->connection->onLocalCandidate([shared](rtc::Candidate candidate) {
+			try {
+				std::lock_guard guard(shared->lock);
+				if (shared->accepting) {
+					shared->pending_candidates.push_back(std::move(candidate));
+				}
+			} catch (...) {
+			}
+		});
 
 		object->connection->onDataChannel([shared](std::shared_ptr<rtc::DataChannel> channel) {
 			try {
@@ -172,6 +183,53 @@ PEER_CONNECTION_METHOD(pollDataChannels) {
 			data_channel_create_zval(&entry, std::move(entry_pair.first), std::move(entry_pair.second));
 			add_next_index_zval(return_value, &entry);
 		}
+	WEBRTC_CATCH
+}
+
+PEER_CONNECTION_METHOD(pollLocalCandidates) {
+	WEBRTC_PARSE_NO_PARAMETERS();
+
+	auto object = PEER_CONNECTION_THIS();
+
+	std::vector<rtc::Candidate> taken;
+
+	WEBRTC_TRY
+		auto shared = *object->shared;
+		std::lock_guard guard(shared->lock);
+		taken.swap(shared->pending_candidates);
+	WEBRTC_CATCH
+
+	array_init_size(return_value, static_cast<uint32_t>(taken.size()));
+
+	WEBRTC_TRY
+		for (const auto& candidate : taken) {
+			zval entry;
+			ice_candidate_create_zval(&entry, candidate);
+			add_next_index_zval(return_value, &entry);
+		}
+	WEBRTC_CATCH
+}
+
+PEER_CONNECTION_METHOD(addRemoteCandidate) {
+	zval* candidate_zval;
+
+	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(candidate_zval, ice_candidate_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+	auto object = PEER_CONNECTION_THIS();
+	auto candidate = ICE_CANDIDATE_FROM_ZVAL(candidate_zval);
+
+	if (candidate->candidate == NULL) {
+		zend_throw_exception(webrtc_exception_ce, "IceCandidate is not initialized", 0);
+		RETURN_THROWS();
+	}
+
+	std::lock_guard guard(*object->lock);
+	REQUIRE_CONNECTION(object);
+
+	WEBRTC_TRY
+		object->connection->addRemoteCandidate(*candidate->candidate);
 	WEBRTC_CATCH
 }
 
@@ -319,6 +377,7 @@ PEER_CONNECTION_METHOD(close) {
 		std::lock_guard shared_guard(shared->lock);
 		shared->accepting = false;
 		abandoned.swap(shared->pending_channels);
+		shared->pending_candidates.clear();
 	WEBRTC_CATCH
 
 	if (object->connection == NULL) {

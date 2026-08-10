@@ -16,7 +16,7 @@ if (PHP_WEBRTC != 'no') {
 		AC_DEFINE('HAVE_WEBRTC', 1, 'webrtc support enabled');
 
 		EXTENSION('webrtc', 'webrtc.cpp', null, '/DZEND_ENABLE_STATIC_TSRMLS_CACHE=1 /EHsc /permissive- /std:c++20');
-		ADD_SOURCES(configure_module_dirname + '/classes', 'Enums.cpp IceServer.cpp DataChannel.cpp DataChannelOptions.cpp PeerConnectionOptions.cpp PeerConnection.cpp', 'webrtc');
+		ADD_SOURCES(configure_module_dirname + '/classes', 'Enums.cpp IceServer.cpp IceCandidate.cpp DataChannel.cpp DataChannelOptions.cpp PeerConnectionOptions.cpp PeerConnection.cpp', 'webrtc');
 	} else {
 		WARNING('webrtc not enabled; libdatachannel not found in ' + PHP_LIBDATACHANNEL);
 	}

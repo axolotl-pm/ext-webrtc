@@ -18,6 +18,9 @@ struct peer_connection_shared {
 	std::mutex lock;
 	/* the queue state is created with the channel, so they travel together */
 	std::vector<std::pair<std::shared_ptr<rtc::DataChannel>, std::shared_ptr<data_channel_shared>>> pending_channels;
+	/* gathered locally rather than sent by the peer, so nothing bounds these
+	 * beyond the interfaces and servers the connection was configured with */
+	std::vector<rtc::Candidate> pending_candidates;
 	/* cleared by close(), so a callback still in flight stops queueing */
 	bool accepting = true;
 	/* taken from the options at construction; zero means no limit */

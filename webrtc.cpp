@@ -24,6 +24,7 @@ extern "C" {
 
 #include "classes/Enums.h"
 #include "classes/IceServer.h"
+#include "classes/IceCandidate.h"
 #include "classes/DataChannel.h"
 #include "classes/DataChannelOptions.h"
 #include "classes/PeerConnectionOptions.h"
@@ -60,6 +61,7 @@ PHP_MINIT_FUNCTION(webrtc) {
 	webrtc_exception_ce = register_class_pmmp_webrtc_WebRtcException(spl_ce_RuntimeException);
 	init_class_Enums();
 	init_class_IceServer();
+	init_class_IceCandidate();
 	init_class_DataChannelOptions();
 	init_class_DataChannel();
 	init_class_PeerConnectionOptions();

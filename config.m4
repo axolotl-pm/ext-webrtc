@@ -40,6 +40,6 @@ if test "$PHP_WEBRTC" != "no"; then
   AC_DEFINE(HAVE_WEBRTC, 1, [ Have webrtc support ])
 
   dnl the 6th parameter here is required for C++ shared extensions
-  PHP_NEW_EXTENSION(webrtc, webrtc.cpp classes/Enums.cpp classes/IceServer.cpp classes/DataChannel.cpp classes/DataChannelOptions.cpp classes/PeerConnectionOptions.cpp classes/PeerConnection.cpp, $ext_shared,,-std=c++20 -Wall, yes)
+  PHP_NEW_EXTENSION(webrtc, webrtc.cpp classes/Enums.cpp classes/IceServer.cpp classes/IceCandidate.cpp classes/DataChannel.cpp classes/DataChannelOptions.cpp classes/PeerConnectionOptions.cpp classes/PeerConnection.cpp, $ext_shared,,-std=c++20 -Wall, yes)
   PHP_ADD_BUILD_DIR($ext_builddir/classes, 1)
 fi

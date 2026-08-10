@@ -45,6 +45,29 @@ final class PeerConnection
      */
     public function pollDataChannels(): array {}
 
+    /**
+     * Take the local candidates gathered since the last call.
+     *
+     * Only needed for trickle ICE. Without it the local description carries
+     * every candidate once getGatheringState() returns COMPLETE, which is also
+     * the signal that no further candidate will appear here.
+     *
+     * @return IceCandidate[]
+     */
+    public function pollLocalCandidates(): array {}
+
+    /**
+     * Add a candidate the peer sent over signaling.
+     *
+     * A remote description has to be in place first, so a candidate that
+     * arrives before the offer or answer must be held by the caller until it
+     * has been applied.
+     *
+     * @throws WebRtcException if there is no remote description yet, or if the
+     *                         candidate cannot be used
+     */
+    public function addRemoteCandidate(IceCandidate $candidate): void {}
+
     public function getGatheringState(): GatheringState {}
 
     public function getState(): ConnectionState {}
