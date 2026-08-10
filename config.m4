@@ -17,28 +17,23 @@ if test "$PHP_WEBRTC" != "no"; then
   dnl libdatachannel ships CMake package config but no pkg-config file, so the
   dnl prefix has to be given explicitly unless it is installed system-wide.
   if test "$PHP_LIBDATACHANNEL" != "yes"; then
+    if test ! -f "$PHP_LIBDATACHANNEL/include/rtc/rtc.hpp"; then
+      AC_MSG_ERROR([libdatachannel not found in $PHP_LIBDATACHANNEL; pass --with-libdatachannel=DIR])
+    fi
+
     PHP_ADD_INCLUDE([$PHP_LIBDATACHANNEL/include])
     PHP_ADD_LIBRARY_WITH_PATH([datachannel], [$PHP_LIBDATACHANNEL/lib], [WEBRTC_SHARED_LIBADD])
+
+    if test -f "$PHP_LIBDATACHANNEL/lib/libusrsctp.a"; then
+      PHP_ADD_LIBRARY([usrsctp], [1], [WEBRTC_SHARED_LIBADD])
+    fi
+
+    if test -f "$PHP_LIBDATACHANNEL/lib/libjuice.a"; then
+      PHP_ADD_LIBRARY([juice], [1], [WEBRTC_SHARED_LIBADD])
+    fi
   else
     PHP_ADD_LIBRARY([datachannel], [1], [WEBRTC_SHARED_LIBADD])
   fi
-
-  dnl rtc/rtc.hpp is C++ only, so the default C compile check cannot be used
-  AC_MSG_CHECKING([for rtc/rtc.hpp])
-  old_CPPFLAGS="$CPPFLAGS"
-  CPPFLAGS="$CPPFLAGS $INCLUDES"
-  AC_LANG_PUSH([C++])
-  AC_COMPILE_IFELSE(
-    [AC_LANG_PROGRAM([[#include <rtc/rtc.hpp>]], [[]])],
-    [AC_MSG_RESULT([found])],
-    [AC_MSG_ERROR([libdatachannel headers not found; pass --with-libdatachannel=DIR])])
-  AC_LANG_POP([C++])
-  CPPFLAGS="$old_CPPFLAGS"
-
-  PHP_CHECK_LIBRARY([datachannel], [rtcCreatePeerConnection],
-    [],
-    [AC_MSG_ERROR([libdatachannel not found; pass --with-libdatachannel=DIR])],
-    [$WEBRTC_SHARED_LIBADD])
 
   PHP_SUBST([WEBRTC_SHARED_LIBADD])
 
