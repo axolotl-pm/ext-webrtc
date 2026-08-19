@@ -1,5 +1,5 @@
 /* This is a generated file, edit the .stub.php file instead.
- * Stub hash: 508fb36a77df74264984a4443ba54aa8d8fb2aec */
+ * Stub hash: 50fa6e70cf1f100847ea069a2c40fafe2ca2fb89 */
 
 
 
@@ -15,6 +15,16 @@ static const zend_function_entry class_pmmp_webrtc_ConnectionState_methods[] = {
 
 
 static const zend_function_entry class_pmmp_webrtc_RelayType_methods[] = {
+	ZEND_FE_END
+};
+
+
+static const zend_function_entry class_pmmp_webrtc_SignalingState_methods[] = {
+	ZEND_FE_END
+};
+
+
+static const zend_function_entry class_pmmp_webrtc_TransportPolicy_methods[] = {
 	ZEND_FE_END
 };
 
@@ -83,6 +93,48 @@ static zend_class_entry *register_class_pmmp_webrtc_RelayType(void)
 	zval enum_case_TLS_value;
 	ZVAL_LONG(&enum_case_TLS_value, 2);
 	zend_enum_add_case_cstr(class_entry, "TLS", &enum_case_TLS_value);
+
+	return class_entry;
+}
+
+static zend_class_entry *register_class_pmmp_webrtc_SignalingState(void)
+{
+	zend_class_entry *class_entry = zend_register_internal_enum("pmmp\\webrtc\\SignalingState", IS_LONG, class_pmmp_webrtc_SignalingState_methods);
+
+	zval enum_case_STABLE_value;
+	ZVAL_LONG(&enum_case_STABLE_value, 0);
+	zend_enum_add_case_cstr(class_entry, "STABLE", &enum_case_STABLE_value);
+
+	zval enum_case_HAVE_LOCAL_OFFER_value;
+	ZVAL_LONG(&enum_case_HAVE_LOCAL_OFFER_value, 1);
+	zend_enum_add_case_cstr(class_entry, "HAVE_LOCAL_OFFER", &enum_case_HAVE_LOCAL_OFFER_value);
+
+	zval enum_case_HAVE_REMOTE_OFFER_value;
+	ZVAL_LONG(&enum_case_HAVE_REMOTE_OFFER_value, 2);
+	zend_enum_add_case_cstr(class_entry, "HAVE_REMOTE_OFFER", &enum_case_HAVE_REMOTE_OFFER_value);
+
+	zval enum_case_HAVE_LOCAL_PRANSWER_value;
+	ZVAL_LONG(&enum_case_HAVE_LOCAL_PRANSWER_value, 3);
+	zend_enum_add_case_cstr(class_entry, "HAVE_LOCAL_PRANSWER", &enum_case_HAVE_LOCAL_PRANSWER_value);
+
+	zval enum_case_HAVE_REMOTE_PRANSWER_value;
+	ZVAL_LONG(&enum_case_HAVE_REMOTE_PRANSWER_value, 4);
+	zend_enum_add_case_cstr(class_entry, "HAVE_REMOTE_PRANSWER", &enum_case_HAVE_REMOTE_PRANSWER_value);
+
+	return class_entry;
+}
+
+static zend_class_entry *register_class_pmmp_webrtc_TransportPolicy(void)
+{
+	zend_class_entry *class_entry = zend_register_internal_enum("pmmp\\webrtc\\TransportPolicy", IS_LONG, class_pmmp_webrtc_TransportPolicy_methods);
+
+	zval enum_case_ALL_value;
+	ZVAL_LONG(&enum_case_ALL_value, 0);
+	zend_enum_add_case_cstr(class_entry, "ALL", &enum_case_ALL_value);
+
+	zval enum_case_RELAY_value;
+	ZVAL_LONG(&enum_case_RELAY_value, 1);
+	zend_enum_add_case_cstr(class_entry, "RELAY", &enum_case_RELAY_value);
 
 	return class_entry;
 }

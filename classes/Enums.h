@@ -8,6 +8,8 @@ extern "C" {
 extern zend_class_entry* gathering_state_ce;
 extern zend_class_entry* connection_state_ce;
 extern zend_class_entry* relay_type_ce;
+extern zend_class_entry* signaling_state_ce;
+extern zend_class_entry* transport_policy_ce;
 
 void init_class_Enums(void);
 

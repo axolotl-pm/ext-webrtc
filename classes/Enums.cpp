@@ -11,6 +11,8 @@ extern "C" {
 zend_class_entry* gathering_state_ce;
 zend_class_entry* connection_state_ce;
 zend_class_entry* relay_type_ce;
+zend_class_entry* signaling_state_ce;
+zend_class_entry* transport_policy_ce;
 
 bool webrtc_set_enum(zval* out, zend_class_entry* ce, zend_long value) {
 	zend_object* case_obj = NULL;
@@ -26,4 +28,6 @@ void init_class_Enums() {
 	gathering_state_ce = register_class_pmmp_webrtc_GatheringState();
 	connection_state_ce = register_class_pmmp_webrtc_ConnectionState();
 	relay_type_ce = register_class_pmmp_webrtc_RelayType();
+	signaling_state_ce = register_class_pmmp_webrtc_SignalingState();
+	transport_policy_ce = register_class_pmmp_webrtc_TransportPolicy();
 }

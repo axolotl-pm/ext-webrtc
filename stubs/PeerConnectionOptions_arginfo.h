@@ -1,5 +1,5 @@
 /* This is a generated file, edit the .stub.php file instead.
- * Stub hash: 57802a81f51ebdcbf7c86283fcc4767b694ef7f8 */
+ * Stub hash: 74a5dacf8c87ef981457c913293d36469f8915ea */
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_class_pmmp_webrtc_PeerConnectionOptions___construct, 0, 0, 0)
 ZEND_END_ARG_INFO()
@@ -45,6 +45,13 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_class_pmmp_webrtc_PeerConnectionO
 	ZEND_ARG_TYPE_INFO(0, enable, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_class_pmmp_webrtc_PeerConnectionOptions_setIceTransportPolicy, 0, 1, pmmp\\webrtc\\PeerConnectionOptions, 0)
+	ZEND_ARG_OBJ_INFO(0, policy, pmmp\\webrtc\\TransportPolicy, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_class_pmmp_webrtc_PeerConnectionOptions_getIceTransportPolicy, 0, 0, pmmp\\webrtc\\TransportPolicy, 0)
+ZEND_END_ARG_INFO()
+
 #define arginfo_class_pmmp_webrtc_PeerConnectionOptions_getMaxMessageSize arginfo_class_pmmp_webrtc_PeerConnectionOptions_getMaxReceiveQueueSize
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_class_pmmp_webrtc_PeerConnectionOptions_getIceServers, 0, 0, IS_ARRAY, 0)
@@ -79,6 +86,8 @@ ZEND_METHOD(pmmp_webrtc_PeerConnectionOptions, setPortRange);
 ZEND_METHOD(pmmp_webrtc_PeerConnectionOptions, setBindAddress);
 ZEND_METHOD(pmmp_webrtc_PeerConnectionOptions, setCertificate);
 ZEND_METHOD(pmmp_webrtc_PeerConnectionOptions, setIceTcpEnabled);
+ZEND_METHOD(pmmp_webrtc_PeerConnectionOptions, setIceTransportPolicy);
+ZEND_METHOD(pmmp_webrtc_PeerConnectionOptions, getIceTransportPolicy);
 ZEND_METHOD(pmmp_webrtc_PeerConnectionOptions, getMaxMessageSize);
 ZEND_METHOD(pmmp_webrtc_PeerConnectionOptions, getIceServers);
 ZEND_METHOD(pmmp_webrtc_PeerConnectionOptions, getPortRangeBegin);
@@ -103,6 +112,8 @@ static const zend_function_entry class_pmmp_webrtc_PeerConnectionOptions_methods
 	ZEND_ME(pmmp_webrtc_PeerConnectionOptions, setBindAddress, arginfo_class_pmmp_webrtc_PeerConnectionOptions_setBindAddress, ZEND_ACC_PUBLIC)
 	ZEND_ME(pmmp_webrtc_PeerConnectionOptions, setCertificate, arginfo_class_pmmp_webrtc_PeerConnectionOptions_setCertificate, ZEND_ACC_PUBLIC)
 	ZEND_ME(pmmp_webrtc_PeerConnectionOptions, setIceTcpEnabled, arginfo_class_pmmp_webrtc_PeerConnectionOptions_setIceTcpEnabled, ZEND_ACC_PUBLIC)
+	ZEND_ME(pmmp_webrtc_PeerConnectionOptions, setIceTransportPolicy, arginfo_class_pmmp_webrtc_PeerConnectionOptions_setIceTransportPolicy, ZEND_ACC_PUBLIC)
+	ZEND_ME(pmmp_webrtc_PeerConnectionOptions, getIceTransportPolicy, arginfo_class_pmmp_webrtc_PeerConnectionOptions_getIceTransportPolicy, ZEND_ACC_PUBLIC)
 	ZEND_ME(pmmp_webrtc_PeerConnectionOptions, getMaxMessageSize, arginfo_class_pmmp_webrtc_PeerConnectionOptions_getMaxMessageSize, ZEND_ACC_PUBLIC)
 	ZEND_ME(pmmp_webrtc_PeerConnectionOptions, getIceServers, arginfo_class_pmmp_webrtc_PeerConnectionOptions_getIceServers, ZEND_ACC_PUBLIC)
 	ZEND_ME(pmmp_webrtc_PeerConnectionOptions, getPortRangeBegin, arginfo_class_pmmp_webrtc_PeerConnectionOptions_getPortRangeBegin, ZEND_ACC_PUBLIC)

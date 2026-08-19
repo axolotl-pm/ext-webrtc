@@ -1,11 +1,13 @@
 extern "C" {
 #include "php.h"
 #include "Zend/zend_exceptions.h"
+#include "Zend/zend_enum.h"
 #include "../stubs/PeerConnectionOptions_arginfo.h"
 }
 
 #include "PeerConnectionOptions.h"
 #include "IceServer.h"
+#include "Enums.h"
 #include "WebRtcException.h"
 
 #include <string>
@@ -250,6 +252,33 @@ OPTIONS_METHOD(setIceTcpEnabled) {
 	OPTIONS_THIS()->config->enableIceTcp = enable;
 
 	RETURN_OBJ_COPY(Z_OBJ_P(ZEND_THIS));
+}
+
+OPTIONS_METHOD(setIceTransportPolicy) {
+	zval* policy_zval;
+
+	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(policy_zval, transport_policy_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+	switch (Z_LVAL_P(zend_enum_fetch_case_value(Z_OBJ_P(policy_zval)))) {
+		case 0: OPTIONS_THIS()->config->iceTransportPolicy = rtc::TransportPolicy::All; break;
+		case 1: OPTIONS_THIS()->config->iceTransportPolicy = rtc::TransportPolicy::Relay; break;
+		default:
+			zend_throw_exception(webrtc_exception_ce, "unknown TransportPolicy", 0);
+			RETURN_THROWS();
+	}
+
+	RETURN_OBJ_COPY(Z_OBJ_P(ZEND_THIS));
+}
+
+OPTIONS_METHOD(getIceTransportPolicy) {
+	WEBRTC_PARSE_NO_PARAMETERS();
+
+	if (!webrtc_set_enum(return_value, transport_policy_ce,
+			static_cast<zend_long>(OPTIONS_THIS()->config->iceTransportPolicy))) {
+		RETURN_THROWS();
+	}
 }
 
 OPTIONS_METHOD(getMaxMessageSize) {

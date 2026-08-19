@@ -282,6 +282,71 @@ PEER_CONNECTION_METHOD(getState) {
 	WEBRTC_CATCH
 }
 
+PEER_CONNECTION_METHOD(getSignalingState) {
+	WEBRTC_PARSE_NO_PARAMETERS();
+
+	auto object = PEER_CONNECTION_THIS();
+
+	std::lock_guard guard(*object->lock);
+	REQUIRE_CONNECTION(object);
+
+	WEBRTC_TRY
+		if (!webrtc_set_enum(return_value, signaling_state_ce, static_cast<zend_long>(object->connection->signalingState()))) {
+			RETURN_THROWS();
+		}
+	WEBRTC_CATCH
+}
+
+PEER_CONNECTION_METHOD(isNegotiationNeeded) {
+	WEBRTC_PARSE_NO_PARAMETERS();
+
+	auto object = PEER_CONNECTION_THIS();
+
+	std::lock_guard guard(*object->lock);
+	REQUIRE_CONNECTION(object);
+
+	WEBRTC_TRY
+		RETURN_BOOL(object->connection->negotiationNeeded());
+	WEBRTC_CATCH
+}
+
+PEER_CONNECTION_METHOD(getRemoteDescription) {
+	WEBRTC_PARSE_NO_PARAMETERS();
+
+	auto object = PEER_CONNECTION_THIS();
+
+	std::lock_guard guard(*object->lock);
+	REQUIRE_CONNECTION(object);
+
+	WEBRTC_TRY
+		auto description = object->connection->remoteDescription();
+		if (!description.has_value()) {
+			RETURN_NULL();
+		}
+
+		std::string sdp = description->generateSdp("\r\n");
+		RETURN_STRINGL(sdp.c_str(), sdp.size());
+	WEBRTC_CATCH
+}
+
+PEER_CONNECTION_METHOD(getRemoteFingerprint) {
+	WEBRTC_PARSE_NO_PARAMETERS();
+
+	auto object = PEER_CONNECTION_THIS();
+
+	std::lock_guard guard(*object->lock);
+	REQUIRE_CONNECTION(object);
+
+	WEBRTC_TRY
+		/* an absent fingerprint comes back as an empty value rather than a throw */
+		auto fingerprint = object->connection->remoteFingerprint();
+		if (fingerprint.value.empty()) {
+			RETURN_NULL();
+		}
+		RETURN_STRINGL(fingerprint.value.c_str(), fingerprint.value.size());
+	WEBRTC_CATCH
+}
+
 PEER_CONNECTION_METHOD(getLocalDescription) {
 	WEBRTC_PARSE_NO_PARAMETERS();
 
@@ -355,6 +420,49 @@ PEER_CONNECTION_METHOD(getRemoteAddress) {
 			RETURN_NULL();
 		}
 		RETURN_STRINGL(address->c_str(), address->size());
+	WEBRTC_CATCH
+}
+
+PEER_CONNECTION_METHOD(getRoundTripTime) {
+	WEBRTC_PARSE_NO_PARAMETERS();
+
+	auto object = PEER_CONNECTION_THIS();
+
+	std::lock_guard guard(*object->lock);
+	REQUIRE_CONNECTION(object);
+
+	WEBRTC_TRY
+		auto rtt = object->connection->rtt();
+		if (!rtt.has_value()) {
+			RETURN_NULL();
+		}
+		RETURN_LONG(static_cast<zend_long>(rtt->count()));
+	WEBRTC_CATCH
+}
+
+PEER_CONNECTION_METHOD(getBytesSent) {
+	WEBRTC_PARSE_NO_PARAMETERS();
+
+	auto object = PEER_CONNECTION_THIS();
+
+	std::lock_guard guard(*object->lock);
+	REQUIRE_CONNECTION(object);
+
+	WEBRTC_TRY
+		RETURN_LONG(static_cast<zend_long>(object->connection->bytesSent()));
+	WEBRTC_CATCH
+}
+
+PEER_CONNECTION_METHOD(getBytesReceived) {
+	WEBRTC_PARSE_NO_PARAMETERS();
+
+	auto object = PEER_CONNECTION_THIS();
+
+	std::lock_guard guard(*object->lock);
+	REQUIRE_CONNECTION(object);
+
+	WEBRTC_TRY
+		RETURN_LONG(static_cast<zend_long>(object->connection->bytesReceived()));
 	WEBRTC_CATCH
 }
 

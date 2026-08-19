@@ -70,6 +70,14 @@ final class PeerConnectionOptions
     /** Whether to gather TCP ICE candidates. Disabled by default. */
     public function setIceTcpEnabled(bool $enable): PeerConnectionOptions {}
 
+    /**
+     * Restrict which candidate types may be used. RELAY forces every path
+     * through a TURN server, so it needs at least one configured.
+     */
+    public function setIceTransportPolicy(TransportPolicy $policy): PeerConnectionOptions {}
+
+    public function getIceTransportPolicy(): TransportPolicy {}
+
     /** Returns 0 if no explicit limit was set. */
     public function getMaxMessageSize(): int {}
 

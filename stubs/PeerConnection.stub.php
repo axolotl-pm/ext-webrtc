@@ -73,6 +73,20 @@ final class PeerConnection
     public function getState(): ConnectionState {}
 
     /**
+     * Where the connection sits in the offer/answer exchange.
+     *
+     * This is what tells an offerer that getLocalDescription() is currently an
+     * offer (HAVE_LOCAL_OFFER) rather than a settled answer (STABLE).
+     */
+    public function getSignalingState(): SignalingState {}
+
+    /**
+     * Whether a channel has been added since the last description was produced,
+     * so that getLocalDescription() now holds an offer the peer has not seen.
+     */
+    public function isNegotiationNeeded(): bool {}
+
+    /**
      * The local SDP, or null if none has been produced yet.
      *
      * With non-trickle ICE this is only complete once getGatheringState()
@@ -86,6 +100,20 @@ final class PeerConnection
      */
     public function getLocalFingerprint(): ?string {}
 
+    /** The SDP the peer sent, or null if none has been applied yet. */
+    public function getRemoteDescription(): ?string {}
+
+    /**
+     * Hex digest of the certificate the peer actually presented, formatted as
+     * "AB:CD:...".
+     *
+     * This is the observed value rather than the one the remote description
+     * claimed, so it only appears once the DTLS handshake has run. Comparing it
+     * against a digest obtained through signaling is what proves the peer is
+     * the expected one.
+     */
+    public function getRemoteFingerprint(): ?string {}
+
     /**
      * Local end of the selected candidate pair, e.g. "192.0.2.10:54321".
      * Null until ICE has selected a pair.
@@ -97,6 +125,18 @@ final class PeerConnection
      * Null until ICE has selected a pair.
      */
     public function getRemoteAddress(): ?string {}
+
+    /**
+     * Round trip time to the peer in milliseconds, or null before SCTP has
+     * measured one.
+     */
+    public function getRoundTripTime(): ?int {}
+
+    /** Payload bytes handed to SCTP, zero before the transport exists. */
+    public function getBytesSent(): int {}
+
+    /** Payload bytes received from SCTP, zero before the transport exists. */
+    public function getBytesReceived(): int {}
 
     /**
      * Close the connection and release the underlying resources immediately.
