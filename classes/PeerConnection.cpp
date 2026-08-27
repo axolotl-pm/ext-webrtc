@@ -466,6 +466,19 @@ PEER_CONNECTION_METHOD(getBytesReceived) {
 	WEBRTC_CATCH
 }
 
+PEER_CONNECTION_METHOD(clearStats) {
+	WEBRTC_PARSE_NO_PARAMETERS();
+
+	auto object = PEER_CONNECTION_THIS();
+
+	std::lock_guard guard(*object->lock);
+	REQUIRE_CONNECTION(object);
+
+	WEBRTC_TRY
+		object->connection->clearStats();
+	WEBRTC_CATCH
+}
+
 PEER_CONNECTION_METHOD(close) {
 	WEBRTC_PARSE_NO_PARAMETERS();
 

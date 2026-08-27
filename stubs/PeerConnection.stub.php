@@ -139,6 +139,12 @@ final class PeerConnection
     public function getBytesReceived(): int {}
 
     /**
+     * Reset the byte counters to zero. The round trip time is measured rather
+     * than accumulated, so it is unaffected.
+     */
+    public function clearStats(): void {}
+
+    /**
      * Close the connection and release the underlying resources immediately.
      * Any further method call throws WebRtcException.
      */

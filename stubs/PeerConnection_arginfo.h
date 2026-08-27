@@ -1,5 +1,5 @@
 /* This is a generated file, edit the .stub.php file instead.
- * Stub hash: a78e2be508f9af40afb1dc09467f94fe5d622471 */
+ * Stub hash: 65a3161653bffdef42fd4edc7ab45db8f6939817 */
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_class_pmmp_webrtc_PeerConnection___construct, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, options, pmmp\\webrtc\\PeerConnectionOptions, 0)
@@ -58,8 +58,10 @@ ZEND_END_ARG_INFO()
 
 #define arginfo_class_pmmp_webrtc_PeerConnection_getBytesReceived arginfo_class_pmmp_webrtc_PeerConnection_getBytesSent
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_class_pmmp_webrtc_PeerConnection_close, 0, 0, IS_VOID, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_class_pmmp_webrtc_PeerConnection_clearStats, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
+
+#define arginfo_class_pmmp_webrtc_PeerConnection_close arginfo_class_pmmp_webrtc_PeerConnection_clearStats
 
 
 ZEND_METHOD(pmmp_webrtc_PeerConnection, __construct);
@@ -82,6 +84,7 @@ ZEND_METHOD(pmmp_webrtc_PeerConnection, getRemoteAddress);
 ZEND_METHOD(pmmp_webrtc_PeerConnection, getRoundTripTime);
 ZEND_METHOD(pmmp_webrtc_PeerConnection, getBytesSent);
 ZEND_METHOD(pmmp_webrtc_PeerConnection, getBytesReceived);
+ZEND_METHOD(pmmp_webrtc_PeerConnection, clearStats);
 ZEND_METHOD(pmmp_webrtc_PeerConnection, close);
 
 
@@ -106,6 +109,7 @@ static const zend_function_entry class_pmmp_webrtc_PeerConnection_methods[] = {
 	ZEND_ME(pmmp_webrtc_PeerConnection, getRoundTripTime, arginfo_class_pmmp_webrtc_PeerConnection_getRoundTripTime, ZEND_ACC_PUBLIC)
 	ZEND_ME(pmmp_webrtc_PeerConnection, getBytesSent, arginfo_class_pmmp_webrtc_PeerConnection_getBytesSent, ZEND_ACC_PUBLIC)
 	ZEND_ME(pmmp_webrtc_PeerConnection, getBytesReceived, arginfo_class_pmmp_webrtc_PeerConnection_getBytesReceived, ZEND_ACC_PUBLIC)
+	ZEND_ME(pmmp_webrtc_PeerConnection, clearStats, arginfo_class_pmmp_webrtc_PeerConnection_clearStats, ZEND_ACC_PUBLIC)
 	ZEND_ME(pmmp_webrtc_PeerConnection, close, arginfo_class_pmmp_webrtc_PeerConnection_close, ZEND_ACC_PUBLIC)
 	ZEND_FE_END
 };
