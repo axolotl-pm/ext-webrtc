@@ -1,5 +1,5 @@
 /* This is a generated file, edit the .stub.php file instead.
- * Stub hash: 8d0656a524670dc04f384215e18897cb7d66d2e9 */
+ * Stub hash: 5a76246b26d798003fae09d83a3647eabd8885b1 */
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_class_pmmp_webrtc_IceServer___construct, 0, 0, 0)
 ZEND_END_ARG_INFO()
@@ -34,6 +34,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_class_pmmp_webrtc_IceServer_isTurn, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
+
 ZEND_METHOD(pmmp_webrtc_IceServer, __construct);
 ZEND_METHOD(pmmp_webrtc_IceServer, stun);
 ZEND_METHOD(pmmp_webrtc_IceServer, turn);
@@ -43,6 +44,7 @@ ZEND_METHOD(pmmp_webrtc_IceServer, getUsername);
 ZEND_METHOD(pmmp_webrtc_IceServer, getPassword);
 ZEND_METHOD(pmmp_webrtc_IceServer, getRelayType);
 ZEND_METHOD(pmmp_webrtc_IceServer, isTurn);
+
 
 static const zend_function_entry class_pmmp_webrtc_IceServer_methods[] = {
 	ZEND_ME(pmmp_webrtc_IceServer, __construct, arginfo_class_pmmp_webrtc_IceServer___construct, ZEND_ACC_PRIVATE)
@@ -62,12 +64,8 @@ static zend_class_entry *register_class_pmmp_webrtc_IceServer(void)
 	zend_class_entry ce, *class_entry;
 
 	INIT_NS_CLASS_ENTRY(ce, "pmmp\\webrtc", "IceServer", class_pmmp_webrtc_IceServer_methods);
-#if (PHP_VERSION_ID >= 80400)
-	class_entry = zend_register_internal_class_with_flags(&ce, NULL, ZEND_ACC_FINAL);
-#else
 	class_entry = zend_register_internal_class_ex(&ce, NULL);
 	class_entry->ce_flags |= ZEND_ACC_FINAL;
-#endif
 
 	return class_entry;
 }

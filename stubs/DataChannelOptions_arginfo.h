@@ -1,5 +1,5 @@
 /* This is a generated file, edit the .stub.php file instead.
- * Stub hash: 87c1668411da89e7d1864ed690273236b1b8e309 */
+ * Stub hash: b9f263cbaf71f7d8c4a7d74bacc28ffc5cc5e45f */
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_class_pmmp_webrtc_DataChannelOptions___construct, 0, 0, 0)
 ZEND_END_ARG_INFO()
@@ -46,6 +46,7 @@ ZEND_END_ARG_INFO()
 
 #define arginfo_class_pmmp_webrtc_DataChannelOptions_getId arginfo_class_pmmp_webrtc_DataChannelOptions_getMaxRetransmits
 
+
 ZEND_METHOD(pmmp_webrtc_DataChannelOptions, __construct);
 ZEND_METHOD(pmmp_webrtc_DataChannelOptions, create);
 ZEND_METHOD(pmmp_webrtc_DataChannelOptions, setUnordered);
@@ -60,6 +61,7 @@ ZEND_METHOD(pmmp_webrtc_DataChannelOptions, getMaxPacketLifeTime);
 ZEND_METHOD(pmmp_webrtc_DataChannelOptions, getProtocol);
 ZEND_METHOD(pmmp_webrtc_DataChannelOptions, isNegotiated);
 ZEND_METHOD(pmmp_webrtc_DataChannelOptions, getId);
+
 
 static const zend_function_entry class_pmmp_webrtc_DataChannelOptions_methods[] = {
 	ZEND_ME(pmmp_webrtc_DataChannelOptions, __construct, arginfo_class_pmmp_webrtc_DataChannelOptions___construct, ZEND_ACC_PRIVATE)
@@ -84,12 +86,8 @@ static zend_class_entry *register_class_pmmp_webrtc_DataChannelOptions(void)
 	zend_class_entry ce, *class_entry;
 
 	INIT_NS_CLASS_ENTRY(ce, "pmmp\\webrtc", "DataChannelOptions", class_pmmp_webrtc_DataChannelOptions_methods);
-#if (PHP_VERSION_ID >= 80400)
-	class_entry = zend_register_internal_class_with_flags(&ce, NULL, ZEND_ACC_FINAL);
-#else
 	class_entry = zend_register_internal_class_ex(&ce, NULL);
 	class_entry->ce_flags |= ZEND_ACC_FINAL;
-#endif
 
 	return class_entry;
 }

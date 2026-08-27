@@ -4,7 +4,7 @@ PHP bindings for [libdatachannel](https://github.com/paullouisageneau/libdatacha
 
 ## Requirements
 
-- PHP 8.2 or newer, NTS or ZTS (NTS hasn't been tested due to our specific requirements)
+- PHP 8.1 or newer, NTS or ZTS (NTS hasn't been tested due to our specific requirements)
 - libdatachannel 0.24 or newer
 - A C++20 compiler
 
