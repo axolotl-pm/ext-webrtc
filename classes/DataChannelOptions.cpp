@@ -99,8 +99,10 @@ DATA_CHANNEL_OPTIONS_METHOD(setMaxPacketLifeTime) {
 		RETURN_OBJ_COPY(Z_OBJ_P(ZEND_THIS));
 	}
 
-	if (milliseconds < 0) {
-		zend_argument_value_error(1, "must be greater than or equal to 0");
+	/* libdatachannel narrows this to uint32_t when it opens the channel, and a
+	 * value that does not fit makes the open fail where nobody can see it */
+	if (milliseconds < 0 || milliseconds > UINT32_MAX) {
+		zend_argument_value_error(1, "must be between 0 and %u", UINT32_MAX);
 		RETURN_THROWS();
 	}
 
