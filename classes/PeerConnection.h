@@ -25,11 +25,7 @@ struct peer_connection_shared {
 	bool accepting = true;
 	/*
 	 * Gathering as the callbacks saw it, which is not what the connection
-	 * reports. libdatachannel flips its own state before it queues the
-	 * candidate and state-change callbacks onto one serial queue, so the
-	 * connection can already say Complete while candidates are still on their
-	 * way here. Reading the state the callbacks left behind puts the two back
-	 * in order: Complete cannot arrive before the candidates ahead of it.
+	 * reports.
 	 */
 	rtc::PeerConnection::GatheringState gathering_state = rtc::PeerConnection::GatheringState::New;
 	/* taken from the options at construction; zero means no limit */
