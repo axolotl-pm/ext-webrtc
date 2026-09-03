@@ -87,6 +87,14 @@ PEER_CONNECTION_METHOD(__construct) {
 		shared->receive_budget = std::make_shared<data_channel_budget>();
 		shared->receive_budget->max = options->max_receive_queue;
 
+		object->connection->onGatheringStateChange([shared](rtc::PeerConnection::GatheringState state) {
+			try {
+				std::lock_guard guard(shared->lock);
+				shared->gathering_state = state;
+			} catch (...) {
+			}
+		});
+
 		object->connection->onLocalCandidate([shared](rtc::Candidate candidate) {
 			try {
 				std::lock_guard guard(shared->lock);
@@ -261,7 +269,15 @@ PEER_CONNECTION_METHOD(getGatheringState) {
 	REQUIRE_CONNECTION(object);
 
 	WEBRTC_TRY
-		if (!webrtc_set_enum(return_value, gathering_state_ce, static_cast<zend_long>(object->connection->gatheringState()))) {
+		/* the callbacks' view, not the connection's; see peer_connection_shared */
+		auto shared = *object->shared;
+		rtc::PeerConnection::GatheringState state;
+		{
+			std::lock_guard shared_guard(shared->lock);
+			state = shared->gathering_state;
+		}
+
+		if (!webrtc_set_enum(return_value, gathering_state_ce, static_cast<zend_long>(state))) {
 			RETURN_THROWS();
 		}
 	WEBRTC_CATCH

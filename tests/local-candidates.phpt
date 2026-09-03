@@ -10,11 +10,28 @@ use pmmp\webrtc\PeerConnection;
 use pmmp\webrtc\PeerConnectionOptions;
 use pmmp\webrtc\WebRtcException;
 
-$connection = new PeerConnection(
-	PeerConnectionOptions::create()
+function options(): PeerConnectionOptions
+{
+	return PeerConnectionOptions::create()
 		->setIceTcpEnabled(false)
-		->setBindAddress("127.0.0.1")
-);
+		->setBindAddress("127.0.0.1");
+}
+
+function gather(PeerConnection $connection, string $label): void
+{
+	$connection->createDataChannel($label);
+
+	$deadline = microtime(true) + 15.0;
+	while ($connection->getGatheringState() !== GatheringState::COMPLETE) {
+		if (microtime(true) > $deadline) {
+			echo "timed out waiting for ICE gathering", PHP_EOL;
+			exit(1);
+		}
+		usleep(20000);
+	}
+}
+
+$connection = new PeerConnection(options());
 
 // nothing has been gathered and no description applied yet
 var_dump($connection->pollLocalCandidates());
@@ -27,17 +44,10 @@ try {
 	echo $e->getMessage(), PHP_EOL;
 }
 
-$connection->createDataChannel("trickle");
+gather($connection, "trickle");
 
-$deadline = microtime(true) + 15.0;
-while ($connection->getGatheringState() !== GatheringState::COMPLETE) {
-	if (microtime(true) > $deadline) {
-		echo "timed out waiting for ICE gathering", PHP_EOL;
-		exit(1);
-	}
-	usleep(20000);
-}
-
+// COMPLETE has to mean every candidate has been handed over, not just that the
+// connection stopped gathering, or a caller that polls once here loses them
 $candidates = $connection->pollLocalCandidates();
 var_dump(count($candidates) > 0);
 var_dump($candidates[0] instanceof IceCandidate);
