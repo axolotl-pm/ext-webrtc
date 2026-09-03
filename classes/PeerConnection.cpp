@@ -82,10 +82,16 @@ PEER_CONNECTION_METHOD(__construct) {
 	WEBRTC_TRY
 		object->connection = new rtc::PeerConnection(*options->config);
 
-		auto shared = *object->shared;
+		/*
+		 * A state of its own rather than the one already there: close() clears
+		 * accepting for good, so constructing over a closed connection would
+		 * otherwise inherit it and quietly drop everything the callbacks queue.
+		 */
+		auto shared = std::make_shared<peer_connection_shared>();
 		shared->max_pending_channels = options->max_pending_data_channels;
 		shared->receive_budget = std::make_shared<data_channel_budget>();
 		shared->receive_budget->max = options->max_receive_queue;
+		*object->shared = shared;
 
 		object->connection->onGatheringStateChange([shared](rtc::PeerConnection::GatheringState state) {
 			try {

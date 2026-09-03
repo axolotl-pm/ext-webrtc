@@ -63,6 +63,13 @@ var_dump(preg_match_all('/^a=candidate:/m', $sdp) === count($candidates));
 
 $connection->close();
 var_dump($connection->pollLocalCandidates());
+
+// constructing over a closed connection starts from a clean state, so the
+// callbacks queue again instead of staying shut off by the close
+$connection->__construct(options());
+gather($connection, "again");
+var_dump(count($connection->pollLocalCandidates()) > 0);
+$connection->close();
 ?>
 --EXPECT--
 array(0) {
@@ -77,3 +84,4 @@ array(0) {
 bool(true)
 array(0) {
 }
+bool(true)
