@@ -22,10 +22,22 @@ final class DataChannelOptions
     /** Allow out-of-order delivery. */
     public function setUnordered(bool $unordered): DataChannelOptions {}
 
-    /** Give up after this many retransmissions. Null restores reliable delivery. */
+    /**
+     * Give up after this many retransmissions. Clears any packet lifetime,
+     * because a channel may carry only one of the two. Null clears this field
+     * on its own, so delivery is reliable again only if no lifetime is set.
+     *
+     * @throws \ValueError if the count is outside 0..4294967295
+     */
     public function setMaxRetransmits(?int $count): DataChannelOptions {}
 
-    /** Give up after this many milliseconds. Null restores reliable delivery. */
+    /**
+     * Give up after this many milliseconds. Clears any retransmission count,
+     * because a channel may carry only one of the two. Null clears this field
+     * on its own, so delivery is reliable again only if no count is set.
+     *
+     * @throws \ValueError if the lifetime is outside 0..4294967295
+     */
     public function setMaxPacketLifeTime(?int $milliseconds): DataChannelOptions {}
 
     /** Sub-protocol advertised to the peer. */

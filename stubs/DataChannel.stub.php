@@ -49,10 +49,22 @@ final class DataChannel
      */
     public function send(string $data): bool {}
 
-    /** Take the next message, or null if none has arrived. */
+    /**
+     * Take the next message, or null if none has arrived.
+     *
+     * @throws WebRtcException once the channel has overrun its share of the
+     *                         connection's receive queue. A message was
+     *                         dropped at that point, so every later call
+     *                         throws too rather than hand back a stream with
+     *                         a hole in it.
+     */
     public function receive(): ?string {}
 
-    /** Look at the next message without consuming it. */
+    /**
+     * Look at the next message without consuming it.
+     *
+     * @throws WebRtcException on the same terms as receive()
+     */
     public function peek(): ?string {}
 
     public function close(): void {}

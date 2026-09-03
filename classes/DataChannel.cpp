@@ -73,6 +73,8 @@ std::shared_ptr<data_channel_shared> data_channel_attach(const std::shared_ptr<r
 		}
 
 		if (overflowed) {
+			/* close() clears this very callback, so the closure is destroyed
+			 * here. Nothing past this point may read state or weak. */
 			try {
 				if (auto locked = weak.lock()) {
 					locked->close();
