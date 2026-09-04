@@ -19,6 +19,42 @@ extern "C" {
 static zend_object_handlers peer_connection_zend_object_handlers;
 zend_class_entry* peer_connection_ce;
 
+/*
+ * Moves out the pending channels that have nothing left to offer. The ceiling
+ * counts channels rather than live ones, so without this a peer that opens and
+ * closes channels fills it with ones nobody can use and the next real channel
+ * is refused.
+ */
+static void evict_spent_pending(
+	peer_connection_shared& shared,
+	std::vector<std::pair<std::shared_ptr<rtc::DataChannel>, std::shared_ptr<data_channel_shared>>>& evicted
+) {
+	auto& pending = shared.pending_channels;
+	size_t kept = 0;
+
+	for (size_t i = 0; i < pending.size(); i++) {
+		bool spent = false;
+		try {
+			if (pending[i].first->isClosed()) {
+				std::lock_guard state_guard(pending[i].second->lock);
+				spent = pending[i].second->queue.empty() || pending[i].second->overflowed;
+			}
+		} catch (...) {
+		}
+
+		if (spent) {
+			evicted.push_back(std::move(pending[i]));
+		} else {
+			if (kept != i) {
+				pending[kept] = std::move(pending[i]);
+			}
+			kept++;
+		}
+	}
+
+	pending.erase(pending.begin() + kept, pending.end());
+}
+
 static zend_object* peer_connection_new(zend_class_entry* ce) {
 	auto object = alloc_custom_zend_object<peer_connection_zend_object>(ce, &peer_connection_zend_object_handlers);
 
@@ -112,11 +148,22 @@ PEER_CONNECTION_METHOD(__construct) {
 		});
 
 		object->connection->onDataChannel([shared](std::shared_ptr<rtc::DataChannel> channel) {
+			/* outlives the lock on purpose; see evict_spent_pending */
+			std::vector<std::pair<std::shared_ptr<rtc::DataChannel>, std::shared_ptr<data_channel_shared>>> evicted;
+
 			try {
 				auto state = data_channel_attach(channel, shared->receive_budget);
 
 				std::lock_guard guard(shared->lock);
-				if (shared->accepting && (shared->max_pending_channels == 0 || shared->pending_channels.size() < shared->max_pending_channels)) {
+				if (!shared->accepting) {
+					return;
+				}
+
+				if (shared->max_pending_channels != 0 && shared->pending_channels.size() >= shared->max_pending_channels) {
+					evict_spent_pending(*shared, evicted);
+				}
+
+				if (shared->max_pending_channels == 0 || shared->pending_channels.size() < shared->max_pending_channels) {
 					shared->pending_channels.emplace_back(std::move(channel), std::move(state));
 				}
 			} catch (...) {
