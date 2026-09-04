@@ -1,5 +1,5 @@
 /* This is a generated file, edit the .stub.php file instead.
- * Stub hash: 9a15f52ae262059a7e59949e5c2832ce69cd0fde */
+ * Stub hash: 12dc5cff99949ace8e755fba1730c9292d9a9bbd */
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_class_pmmp_webrtc_PeerConnectionOptions___construct, 0, 0, 0)
 ZEND_END_ARG_INFO()
@@ -16,9 +16,17 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_class_pmmp_webrtc_PeerConnectionOptions_getMaxReceiveQueueSize, 0, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_class_pmmp_webrtc_PeerConnectionOptions_setMaxPendingDataChannels, 0, 1, pmmp\\webrtc\\PeerConnectionOptions, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_class_pmmp_webrtc_PeerConnectionOptions_setMaxReceiveQueueMessages, 0, 1, pmmp\\webrtc\\PeerConnectionOptions, 0)
 	ZEND_ARG_TYPE_INFO(0, count, IS_LONG, 0)
 ZEND_END_ARG_INFO()
+
+#define arginfo_class_pmmp_webrtc_PeerConnectionOptions_getMaxReceiveQueueMessages arginfo_class_pmmp_webrtc_PeerConnectionOptions_getMaxReceiveQueueSize
+
+#define arginfo_class_pmmp_webrtc_PeerConnectionOptions_setMaxSendQueueSize arginfo_class_pmmp_webrtc_PeerConnectionOptions_setMaxMessageSize
+
+#define arginfo_class_pmmp_webrtc_PeerConnectionOptions_getMaxSendQueueSize arginfo_class_pmmp_webrtc_PeerConnectionOptions_getMaxReceiveQueueSize
+
+#define arginfo_class_pmmp_webrtc_PeerConnectionOptions_setMaxPendingDataChannels arginfo_class_pmmp_webrtc_PeerConnectionOptions_setMaxReceiveQueueMessages
 
 #define arginfo_class_pmmp_webrtc_PeerConnectionOptions_getMaxPendingDataChannels arginfo_class_pmmp_webrtc_PeerConnectionOptions_getMaxReceiveQueueSize
 
@@ -73,12 +81,15 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_class_pmmp_webrtc_PeerConnectionOptions_isIceTcpEnabled, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-
 ZEND_METHOD(pmmp_webrtc_PeerConnectionOptions, __construct);
 ZEND_METHOD(pmmp_webrtc_PeerConnectionOptions, create);
 ZEND_METHOD(pmmp_webrtc_PeerConnectionOptions, setMaxMessageSize);
 ZEND_METHOD(pmmp_webrtc_PeerConnectionOptions, setMaxReceiveQueueSize);
 ZEND_METHOD(pmmp_webrtc_PeerConnectionOptions, getMaxReceiveQueueSize);
+ZEND_METHOD(pmmp_webrtc_PeerConnectionOptions, setMaxReceiveQueueMessages);
+ZEND_METHOD(pmmp_webrtc_PeerConnectionOptions, getMaxReceiveQueueMessages);
+ZEND_METHOD(pmmp_webrtc_PeerConnectionOptions, setMaxSendQueueSize);
+ZEND_METHOD(pmmp_webrtc_PeerConnectionOptions, getMaxSendQueueSize);
 ZEND_METHOD(pmmp_webrtc_PeerConnectionOptions, setMaxPendingDataChannels);
 ZEND_METHOD(pmmp_webrtc_PeerConnectionOptions, getMaxPendingDataChannels);
 ZEND_METHOD(pmmp_webrtc_PeerConnectionOptions, setIceServers);
@@ -98,13 +109,16 @@ ZEND_METHOD(pmmp_webrtc_PeerConnectionOptions, getKeyPemFile);
 ZEND_METHOD(pmmp_webrtc_PeerConnectionOptions, getKeyPemPass);
 ZEND_METHOD(pmmp_webrtc_PeerConnectionOptions, isIceTcpEnabled);
 
-
 static const zend_function_entry class_pmmp_webrtc_PeerConnectionOptions_methods[] = {
 	ZEND_ME(pmmp_webrtc_PeerConnectionOptions, __construct, arginfo_class_pmmp_webrtc_PeerConnectionOptions___construct, ZEND_ACC_PRIVATE)
 	ZEND_ME(pmmp_webrtc_PeerConnectionOptions, create, arginfo_class_pmmp_webrtc_PeerConnectionOptions_create, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	ZEND_ME(pmmp_webrtc_PeerConnectionOptions, setMaxMessageSize, arginfo_class_pmmp_webrtc_PeerConnectionOptions_setMaxMessageSize, ZEND_ACC_PUBLIC)
 	ZEND_ME(pmmp_webrtc_PeerConnectionOptions, setMaxReceiveQueueSize, arginfo_class_pmmp_webrtc_PeerConnectionOptions_setMaxReceiveQueueSize, ZEND_ACC_PUBLIC)
 	ZEND_ME(pmmp_webrtc_PeerConnectionOptions, getMaxReceiveQueueSize, arginfo_class_pmmp_webrtc_PeerConnectionOptions_getMaxReceiveQueueSize, ZEND_ACC_PUBLIC)
+	ZEND_ME(pmmp_webrtc_PeerConnectionOptions, setMaxReceiveQueueMessages, arginfo_class_pmmp_webrtc_PeerConnectionOptions_setMaxReceiveQueueMessages, ZEND_ACC_PUBLIC)
+	ZEND_ME(pmmp_webrtc_PeerConnectionOptions, getMaxReceiveQueueMessages, arginfo_class_pmmp_webrtc_PeerConnectionOptions_getMaxReceiveQueueMessages, ZEND_ACC_PUBLIC)
+	ZEND_ME(pmmp_webrtc_PeerConnectionOptions, setMaxSendQueueSize, arginfo_class_pmmp_webrtc_PeerConnectionOptions_setMaxSendQueueSize, ZEND_ACC_PUBLIC)
+	ZEND_ME(pmmp_webrtc_PeerConnectionOptions, getMaxSendQueueSize, arginfo_class_pmmp_webrtc_PeerConnectionOptions_getMaxSendQueueSize, ZEND_ACC_PUBLIC)
 	ZEND_ME(pmmp_webrtc_PeerConnectionOptions, setMaxPendingDataChannels, arginfo_class_pmmp_webrtc_PeerConnectionOptions_setMaxPendingDataChannels, ZEND_ACC_PUBLIC)
 	ZEND_ME(pmmp_webrtc_PeerConnectionOptions, getMaxPendingDataChannels, arginfo_class_pmmp_webrtc_PeerConnectionOptions_getMaxPendingDataChannels, ZEND_ACC_PUBLIC)
 	ZEND_ME(pmmp_webrtc_PeerConnectionOptions, setIceServers, arginfo_class_pmmp_webrtc_PeerConnectionOptions_setIceServers, ZEND_ACC_PUBLIC)
@@ -131,8 +145,12 @@ static zend_class_entry *register_class_pmmp_webrtc_PeerConnectionOptions(void)
 	zend_class_entry ce, *class_entry;
 
 	INIT_NS_CLASS_ENTRY(ce, "pmmp\\webrtc", "PeerConnectionOptions", class_pmmp_webrtc_PeerConnectionOptions_methods);
+#if (PHP_VERSION_ID >= 80400)
+	class_entry = zend_register_internal_class_with_flags(&ce, NULL, ZEND_ACC_FINAL);
+#else
 	class_entry = zend_register_internal_class_ex(&ce, NULL);
 	class_entry->ce_flags |= ZEND_ACC_FINAL;
+#endif
 
 	return class_entry;
 }

@@ -41,9 +41,10 @@ static size_t message_size(const rtc::message_variant& message) {
 		: std::get<std::string>(message).size();
 }
 
-std::shared_ptr<data_channel_shared> data_channel_attach(const std::shared_ptr<rtc::DataChannel>& channel, std::shared_ptr<data_channel_budget> budget) {
+std::shared_ptr<data_channel_shared> data_channel_attach(const std::shared_ptr<rtc::DataChannel>& channel, std::shared_ptr<data_channel_budget> budget, size_t max_send_queue) {
 	auto state = std::make_shared<data_channel_shared>();
 	state->budget = std::move(budget);
+	state->max_send_queue = max_send_queue;
 
 	/* weak, so that the callback the channel owns does not own the channel */
 	std::weak_ptr weak = channel;
@@ -57,9 +58,15 @@ std::shared_ptr<data_channel_shared> data_channel_attach(const std::shared_ptr<r
 			size_t size = message_size(message);
 			auto& budget = *state->budget;
 
-			size_t previous = budget.used.fetch_add(size);
-			if (budget.max != 0 && previous + size > budget.max) {
+			size_t previous_bytes = budget.used.fetch_add(size);
+			size_t previous_messages = budget.messages.fetch_add(1);
+
+			bool over_bytes = budget.max != 0 && previous_bytes + size > budget.max;
+			bool over_messages = budget.max_messages != 0 && previous_messages + 1 > budget.max_messages;
+
+			if (over_bytes || over_messages) {
 				budget.used.fetch_sub(size);
+				budget.messages.fetch_sub(1);
 				/*
 				 * Dropped rather than queued. Recording it matters: a caller that
 				 * reassembles a stream must not be handed one with a hole in it.
@@ -260,6 +267,19 @@ DATA_CHANNEL_METHOD(getAvailableAmount) {
 	WEBRTC_CATCH
 }
 
+DATA_CHANNEL_METHOD(getQueuedMessageCount) {
+	WEBRTC_PARSE_NO_PARAMETERS();
+
+	auto object = DATA_CHANNEL_THIS();
+	REQUIRE_CHANNEL(object);
+
+	WEBRTC_TRY
+		auto state = *object->state;
+		std::lock_guard guard(state->lock);
+		RETURN_LONG((zend_long)state->queue.size());
+	WEBRTC_CATCH
+}
+
 DATA_CHANNEL_METHOD(send) {
 	zend_string* data;
 
@@ -271,6 +291,23 @@ DATA_CHANNEL_METHOD(send) {
 	REQUIRE_CHANNEL(object);
 
 	WEBRTC_TRY
+		/*
+		 * libdatachannel buffers anything it cannot put on the wire yet and
+		 * never refuses, so a peer that stops reading would let this grow until
+		 * the process runs out of memory. Throwing rather than returning false
+		 * because false already means "buffered", which callers ignore.
+		 */
+		auto state = *object->state;
+		if (state->max_send_queue != 0) {
+			size_t buffered = (*object->channel)->bufferedAmount();
+			if (buffered >= state->max_send_queue) {
+				zend_throw_exception_ex(webrtc_exception_ce, 0,
+					"DataChannel send queue holds " ZEND_LONG_FMT " bytes, at or over the " ZEND_LONG_FMT " byte limit",
+					(zend_long)buffered, (zend_long)state->max_send_queue);
+				RETURN_THROWS();
+			}
+		}
+
 		/* always binary: a framed payload is rarely valid UTF-8 */
 		auto bytes = reinterpret_cast<const std::byte*>(ZSTR_VAL(data));
 		RETURN_BOOL((*object->channel)->send(bytes, ZSTR_LEN(data)));
@@ -308,6 +345,7 @@ DATA_CHANNEL_METHOD(receive) {
 		size_t size = message_size(message);
 		state->queued_bytes -= size;
 		state->budget->used.fetch_sub(size);
+		state->budget->messages.fetch_sub(1);
 	WEBRTC_CATCH
 
 	return_message(return_value, message);

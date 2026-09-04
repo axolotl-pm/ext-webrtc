@@ -125,8 +125,10 @@ PEER_CONNECTION_METHOD(__construct) {
 		 */
 		auto shared = std::make_shared<peer_connection_shared>();
 		shared->max_pending_channels = options->max_pending_data_channels;
+		shared->max_send_queue = options->max_send_queue;
 		shared->receive_budget = std::make_shared<data_channel_budget>();
 		shared->receive_budget->max = options->max_receive_queue;
+		shared->receive_budget->max_messages = options->max_receive_queue_messages;
 		*object->shared = shared;
 
 		object->connection->onGatheringStateChange([shared](rtc::PeerConnection::GatheringState state) {
@@ -152,7 +154,7 @@ PEER_CONNECTION_METHOD(__construct) {
 			std::vector<std::pair<std::shared_ptr<rtc::DataChannel>, std::shared_ptr<data_channel_shared>>> evicted;
 
 			try {
-				auto state = data_channel_attach(channel, shared->receive_budget);
+				auto state = data_channel_attach(channel, shared->receive_budget, shared->max_send_queue);
 
 				std::lock_guard guard(shared->lock);
 				if (!shared->accepting) {
@@ -217,7 +219,7 @@ PEER_CONNECTION_METHOD(createDataChannel) {
 			std::string(ZSTR_VAL(label), ZSTR_LEN(label)),
 			init
 		);
-		auto state = data_channel_attach(channel, shared->receive_budget);
+		auto state = data_channel_attach(channel, shared->receive_budget, shared->max_send_queue);
 
 		data_channel_create_zval(return_value, std::move(channel), std::move(state));
 	WEBRTC_CATCH

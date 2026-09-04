@@ -36,6 +36,26 @@ final class PeerConnectionOptions
     public function getMaxReceiveQueueSize(): int {}
 
     /**
+     * Messages this connection may hold waiting to be received, counted across
+     * all of its data channels together. 0 removes the limit.
+     */
+    public function setMaxReceiveQueueMessages(int $count): PeerConnectionOptions {}
+
+    public function getMaxReceiveQueueMessages(): int {}
+
+    /**
+     * Bytes a single data channel may hold waiting to go out before send()
+     * throws. 0 removes the limit.
+     *
+     * The transport buffers whatever it cannot write yet and never refuses on
+     * its own, so without this a peer that stops reading decides how much
+     * memory this process uses.
+     */
+    public function setMaxSendQueueSize(int $bytes): PeerConnectionOptions {}
+
+    public function getMaxSendQueueSize(): int {}
+
+    /**
      * Data channels a peer may have open and uncollected before further ones
      * are refused. 0 removes the limit.
      *

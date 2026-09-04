@@ -15,8 +15,10 @@ extern "C" {
 
 struct data_channel_budget {
 	std::atomic<size_t> used{0};
-	/* 0 for no limit */
+	std::atomic<size_t> messages{0};
+	/* both mean "no limit" when set to zero */
 	size_t max = 0;
+	size_t max_messages = 0;
 };
 
 struct data_channel_shared {
@@ -24,6 +26,8 @@ struct data_channel_shared {
 	std::deque<rtc::message_variant> queue;
 	size_t queued_bytes = 0;
 	std::shared_ptr<data_channel_budget> budget;
+	/* taken from the options at construction; zero means no limit */
+	size_t max_send_queue = 0;
 	/* set once a message has been dropped; the channel cannot be trusted after that */
 	bool overflowed = false;
 
@@ -34,8 +38,13 @@ struct data_channel_shared {
 	 * spent for as long as the connection lives.
 	 */
 	~data_channel_shared() {
-		if (budget != nullptr && queued_bytes != 0) {
-			budget->used.fetch_sub(queued_bytes);
+		if (budget != nullptr) {
+			if (queued_bytes != 0) {
+				budget->used.fetch_sub(queued_bytes);
+			}
+			if (!queue.empty()) {
+				budget->messages.fetch_sub(queue.size());
+			}
 		}
 	}
 };
@@ -57,7 +66,7 @@ zend_class_entry* init_class_DataChannel(void);
  * Takes delivery of the channel's messages, charging them to the given budget.
  * Must be called before the channel can receive anything.
  */
-std::shared_ptr<data_channel_shared> data_channel_attach(const std::shared_ptr<rtc::DataChannel>& channel, std::shared_ptr<data_channel_budget> budget);
+std::shared_ptr<data_channel_shared> data_channel_attach(const std::shared_ptr<rtc::DataChannel>& channel, std::shared_ptr<data_channel_budget> budget, size_t max_send_queue);
 
 /* Wrap an existing channel in a new PHP object stored into out. */
 void data_channel_create_zval(zval* out, std::shared_ptr<rtc::DataChannel> channel, std::shared_ptr<data_channel_shared> state);

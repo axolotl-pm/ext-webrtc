@@ -21,6 +21,8 @@ static zend_object* options_new(zend_class_entry* ce) {
 
 	object->config = NULL;
 	object->max_receive_queue = OPTIONS_DEFAULT_MAX_RECEIVE_QUEUE;
+	object->max_receive_queue_messages = OPTIONS_DEFAULT_MAX_RECEIVE_QUEUE_MESSAGES;
+	object->max_send_queue = OPTIONS_DEFAULT_MAX_SEND_QUEUE;
 	object->max_pending_data_channels = OPTIONS_DEFAULT_MAX_PENDING_DATA_CHANNELS;
 
 	object->config = new rtc::Configuration();
@@ -110,6 +112,52 @@ OPTIONS_METHOD(getMaxReceiveQueueSize) {
 	WEBRTC_PARSE_NO_PARAMETERS();
 
 	RETURN_LONG((zend_long)OPTIONS_THIS()->max_receive_queue);
+}
+
+OPTIONS_METHOD(setMaxReceiveQueueMessages) {
+	zend_long count;
+
+	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+		Z_PARAM_LONG(count)
+	ZEND_PARSE_PARAMETERS_END();
+
+	if (count < 0) {
+		zend_argument_value_error(1, "must be greater than or equal to 0");
+		RETURN_THROWS();
+	}
+
+	OPTIONS_THIS()->max_receive_queue_messages = (size_t)count;
+
+	RETURN_OBJ_COPY(Z_OBJ_P(ZEND_THIS));
+}
+
+OPTIONS_METHOD(getMaxReceiveQueueMessages) {
+	WEBRTC_PARSE_NO_PARAMETERS();
+
+	RETURN_LONG((zend_long)OPTIONS_THIS()->max_receive_queue_messages);
+}
+
+OPTIONS_METHOD(setMaxSendQueueSize) {
+	zend_long bytes;
+
+	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+		Z_PARAM_LONG(bytes)
+	ZEND_PARSE_PARAMETERS_END();
+
+	if (bytes < 0) {
+		zend_argument_value_error(1, "must be greater than or equal to 0");
+		RETURN_THROWS();
+	}
+
+	OPTIONS_THIS()->max_send_queue = (size_t)bytes;
+
+	RETURN_OBJ_COPY(Z_OBJ_P(ZEND_THIS));
+}
+
+OPTIONS_METHOD(getMaxSendQueueSize) {
+	WEBRTC_PARSE_NO_PARAMETERS();
+
+	RETURN_LONG((zend_long)OPTIONS_THIS()->max_send_queue);
 }
 
 OPTIONS_METHOD(setMaxPendingDataChannels) {
