@@ -11,6 +11,8 @@ namespace pmmp\webrtc;
  * A single ICE candidate, as carried over signaling for trickle ICE.
  *
  * Instances are immutable and must be created through create().
+ *
+ * @not-serializable
  */
 final class IceCandidate
 {

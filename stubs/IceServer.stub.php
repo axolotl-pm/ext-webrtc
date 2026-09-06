@@ -11,6 +11,8 @@ namespace pmmp\webrtc;
  * A single STUN or TURN server.
  *
  * Instances are immutable and must be created through stun() or turn().
+ *
+ * @not-serializable
  */
 final class IceServer
 {

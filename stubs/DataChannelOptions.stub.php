@@ -12,6 +12,8 @@ namespace pmmp\webrtc;
  *
  * A channel is reliable unless either setMaxRetransmits() or
  * setMaxPacketLifeTime() is given; the two are mutually exclusive.
+ *
+ * @not-serializable
  */
 final class DataChannelOptions
 {

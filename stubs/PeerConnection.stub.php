@@ -9,6 +9,8 @@ namespace pmmp\webrtc;
 
 /**
  * A single WebRTC peer connection.
+ *
+ * @not-serializable
  */
 final class PeerConnection
 {

@@ -9,6 +9,8 @@ namespace pmmp\webrtc;
 
 /**
  * A single data channel.
+ *
+ * @not-serializable
  */
 final class DataChannel
 {

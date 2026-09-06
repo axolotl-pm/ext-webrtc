@@ -1,5 +1,5 @@
 /* This is a generated file, edit the .stub.php file instead.
- * Stub hash: 5a884987ebed8cfecf7b902f29fee1ede7223ae7 */
+ * Stub hash: 30feae49b3143a1f58e7e676896d4f39a738bcc1 */
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_class_pmmp_webrtc_PeerConnectionOptions___construct, 0, 0, 0)
 ZEND_END_ARG_INFO()
@@ -154,10 +154,10 @@ static zend_class_entry *register_class_pmmp_webrtc_PeerConnectionOptions(void)
 
 	INIT_NS_CLASS_ENTRY(ce, "pmmp\\webrtc", "PeerConnectionOptions", class_pmmp_webrtc_PeerConnectionOptions_methods);
 #if (PHP_VERSION_ID >= 80400)
-	class_entry = zend_register_internal_class_with_flags(&ce, NULL, ZEND_ACC_FINAL);
+	class_entry = zend_register_internal_class_with_flags(&ce, NULL, ZEND_ACC_FINAL|ZEND_ACC_NOT_SERIALIZABLE);
 #else
 	class_entry = zend_register_internal_class_ex(&ce, NULL);
-	class_entry->ce_flags |= ZEND_ACC_FINAL;
+	class_entry->ce_flags |= ZEND_ACC_FINAL|ZEND_ACC_NOT_SERIALIZABLE;
 #endif
 
 	return class_entry;

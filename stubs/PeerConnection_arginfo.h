@@ -1,5 +1,5 @@
 /* This is a generated file, edit the .stub.php file instead.
- * Stub hash: b9ae901dba4b975562ee83543e23abc5b44ecbb3 */
+ * Stub hash: 693fff9422d2aa20cdd3c42f882dc67d48e511e0 */
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_class_pmmp_webrtc_PeerConnection___construct, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, options, pmmp\\webrtc\\PeerConnectionOptions, 0)
@@ -63,7 +63,6 @@ ZEND_END_ARG_INFO()
 
 #define arginfo_class_pmmp_webrtc_PeerConnection_close arginfo_class_pmmp_webrtc_PeerConnection_clearStats
 
-
 ZEND_METHOD(pmmp_webrtc_PeerConnection, __construct);
 ZEND_METHOD(pmmp_webrtc_PeerConnection, setRemoteOffer);
 ZEND_METHOD(pmmp_webrtc_PeerConnection, setRemoteAnswer);
@@ -86,7 +85,6 @@ ZEND_METHOD(pmmp_webrtc_PeerConnection, getBytesSent);
 ZEND_METHOD(pmmp_webrtc_PeerConnection, getBytesReceived);
 ZEND_METHOD(pmmp_webrtc_PeerConnection, clearStats);
 ZEND_METHOD(pmmp_webrtc_PeerConnection, close);
-
 
 static const zend_function_entry class_pmmp_webrtc_PeerConnection_methods[] = {
 	ZEND_ME(pmmp_webrtc_PeerConnection, __construct, arginfo_class_pmmp_webrtc_PeerConnection___construct, ZEND_ACC_PUBLIC)
@@ -119,8 +117,12 @@ static zend_class_entry *register_class_pmmp_webrtc_PeerConnection(void)
 	zend_class_entry ce, *class_entry;
 
 	INIT_NS_CLASS_ENTRY(ce, "pmmp\\webrtc", "PeerConnection", class_pmmp_webrtc_PeerConnection_methods);
+#if (PHP_VERSION_ID >= 80400)
+	class_entry = zend_register_internal_class_with_flags(&ce, NULL, ZEND_ACC_FINAL|ZEND_ACC_NOT_SERIALIZABLE);
+#else
 	class_entry = zend_register_internal_class_ex(&ce, NULL);
-	class_entry->ce_flags |= ZEND_ACC_FINAL;
+	class_entry->ce_flags |= ZEND_ACC_FINAL|ZEND_ACC_NOT_SERIALIZABLE;
+#endif
 
 	return class_entry;
 }

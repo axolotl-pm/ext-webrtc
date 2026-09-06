@@ -9,6 +9,8 @@ namespace pmmp\webrtc;
 
 /**
  * Builder for PeerConnection configuration. Setters return the same instance.
+ *
+ * @not-serializable
  */
 final class PeerConnectionOptions
 {

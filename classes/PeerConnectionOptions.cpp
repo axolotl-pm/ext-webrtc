@@ -215,25 +215,25 @@ OPTIONS_METHOD(setIceServers) {
 		Z_PARAM_VARIADIC('*', args, argc)
 	ZEND_PARSE_PARAMETERS_END();
 
-	std::vector<rtc::IceServer> servers;
-	servers.reserve(argc);
-
-	for (uint32_t i = 0; i < argc; i++) {
-		if (Z_TYPE(args[i]) != IS_OBJECT || !instanceof_function(Z_OBJCE(args[i]), ice_server_ce)) {
-			zend_argument_type_error(i + 1, "must be of type pmmp\\webrtc\\IceServer");
-			RETURN_THROWS();
-		}
-
-		auto server = fetch_from_zend_object<ice_server_zend_object>(Z_OBJ(args[i]));
-		if (server->server == NULL) {
-			zend_throw_exception(webrtc_exception_ce, "IceServer is not initialized", 0);
-			RETURN_THROWS();
-		}
-
-		servers.push_back(*server->server);
-	}
-
 	WEBRTC_TRY
+		std::vector<rtc::IceServer> servers;
+		servers.reserve(argc);
+
+		for (uint32_t i = 0; i < argc; i++) {
+			if (Z_TYPE(args[i]) != IS_OBJECT || !instanceof_function(Z_OBJCE(args[i]), ice_server_ce)) {
+				zend_argument_type_error(i + 1, "must be of type pmmp\\webrtc\\IceServer");
+				RETURN_THROWS();
+			}
+
+			auto server = fetch_from_zend_object<ice_server_zend_object>(Z_OBJ(args[i]));
+			if (server->server == NULL) {
+				zend_throw_exception(webrtc_exception_ce, "IceServer is not initialized", 0);
+				RETURN_THROWS();
+			}
+
+			servers.push_back(*server->server);
+		}
+
 		OPTIONS_THIS()->config->iceServers = std::move(servers);
 	WEBRTC_CATCH
 
