@@ -19,6 +19,16 @@ extern "C" {
 static zend_object_handlers peer_connection_zend_object_handlers;
 zend_class_entry* peer_connection_ce;
 
+static bool remote_description_within_limit(zend_string* sdp, size_t limit) {
+	if (limit != 0 && ZSTR_LEN(sdp) > limit) {
+		zend_throw_exception_ex(webrtc_exception_ce, 0,
+			"remote description is " ZEND_LONG_FMT " bytes, over the " ZEND_LONG_FMT " byte limit",
+			(zend_long)ZSTR_LEN(sdp), (zend_long)limit);
+		return false;
+	}
+	return true;
+}
+
 /*
  * Moves out the pending channels that have nothing left to offer. The ceiling
  * counts channels rather than live ones, so without this a peer that opens and
@@ -126,6 +136,7 @@ PEER_CONNECTION_METHOD(__construct) {
 		auto shared = std::make_shared<peer_connection_shared>();
 		shared->max_pending_channels = options->max_pending_data_channels;
 		shared->max_send_queue = options->max_send_queue;
+		shared->max_remote_description = options->max_remote_description;
 		shared->receive_budget = std::make_shared<data_channel_budget>();
 		shared->receive_budget->max = options->max_receive_queue;
 		shared->receive_budget->max_messages = options->max_receive_queue_messages;
@@ -185,6 +196,10 @@ PEER_CONNECTION_METHOD(setRemoteAnswer) {
 
 	std::lock_guard guard(*object->lock);
 	REQUIRE_CONNECTION(object);
+
+	if (!remote_description_within_limit(sdp, (*object->shared)->max_remote_description)) {
+		RETURN_THROWS();
+	}
 
 	WEBRTC_TRY
 		object->connection->setRemoteDescription(
@@ -307,6 +322,10 @@ PEER_CONNECTION_METHOD(setRemoteOffer) {
 
 	std::lock_guard guard(*object->lock);
 	REQUIRE_CONNECTION(object);
+
+	if (!remote_description_within_limit(sdp, (*object->shared)->max_remote_description)) {
+		RETURN_THROWS();
+	}
 
 	WEBRTC_TRY
 		object->connection->setRemoteDescription(

@@ -28,9 +28,10 @@ struct peer_connection_shared {
 	 * reports.
 	 */
 	rtc::PeerConnection::GatheringState gathering_state = rtc::PeerConnection::GatheringState::New;
-	/* both taken from the options at construction; zero means no limit */
+	/* all taken from the options at construction; zero means no limit */
 	size_t max_pending_channels = 0;
 	size_t max_send_queue = 0;
+	size_t max_remote_description = 0;
 	/* one allowance for every channel of this connection together */
 	std::shared_ptr<data_channel_budget> receive_budget;
 };

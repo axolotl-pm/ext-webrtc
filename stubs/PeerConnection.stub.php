@@ -20,14 +20,16 @@ final class PeerConnection
      * Unknown session-level attributes in the SDP are ignored, so the offer
      * can be passed through unmodified.
      *
-     * @throws WebRtcException if the SDP cannot be parsed
+     * @throws WebRtcException if the SDP cannot be parsed, or is larger than a
+     *                         data channel description is expected to be
      */
     public function setRemoteOffer(string $sdp): void {}
 
     /**
      * Apply a remote answer to an offer this connection produced.
      *
-     * @throws WebRtcException if the SDP cannot be parsed
+     * @throws WebRtcException if the SDP cannot be parsed, or is larger than a
+     *                         data channel description is expected to be
      */
     public function setRemoteAnswer(string $sdp): void {}
 

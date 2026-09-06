@@ -56,6 +56,19 @@ final class PeerConnectionOptions
     public function getMaxSendQueueSize(): int {}
 
     /**
+     * Bytes a remote description passed to setRemoteOffer() or setRemoteAnswer()
+     * may hold before it is refused unparsed. 0 removes the limit.
+     *
+     * Parsing an SDP costs time that grows with the square of the candidate
+     * lines it carries, on the thread that called it, so without this a peer
+     * decides how long that call blocks. A real data channel description is a
+     * few kilobytes.
+     */
+    public function setMaxRemoteDescriptionSize(int $bytes): PeerConnectionOptions {}
+
+    public function getMaxRemoteDescriptionSize(): int {}
+
+    /**
      * Data channels a peer may have open and uncollected before further ones
      * are refused. 0 removes the limit.
      *

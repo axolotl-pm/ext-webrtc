@@ -13,6 +13,7 @@ extern "C" {
 #define OPTIONS_DEFAULT_MAX_RECEIVE_QUEUE_MESSAGES 8192
 #define OPTIONS_DEFAULT_MAX_SEND_QUEUE (16 * 1024 * 1024)
 #define OPTIONS_DEFAULT_MAX_PENDING_DATA_CHANNELS 64
+#define OPTIONS_DEFAULT_MAX_REMOTE_DESCRIPTION (64 * 1024)
 
 #define OPTIONS_MAX_MESSAGE_SIZE_LIMIT (256 * 1024 * 1024)
 
@@ -22,6 +23,7 @@ typedef struct _peer_connection_options_zend_object {
 	size_t max_receive_queue_messages;
 	size_t max_send_queue;
 	size_t max_pending_data_channels;
+	size_t max_remote_description;
 	zend_object std;
 } peer_connection_options_zend_object;
 
