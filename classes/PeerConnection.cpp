@@ -118,6 +118,18 @@ PEER_CONNECTION_METHOD(__construct) {
 	auto object = PEER_CONNECTION_THIS();
 	auto options = OPTIONS_FROM_ZVAL(options_zval);
 
+	/*
+	 * TURN servers cannot be used when ICE UDP multiplexing is enabled.
+	 */
+	if (options->config->enableIceUdpMux) {
+		for (const auto& server : options->config->iceServers) {
+			if (server.type == rtc::IceServer::Type::Turn) {
+				zend_throw_exception(webrtc_exception_ce, "TURN servers cannot be used with ICE UDP mux", 0);
+				RETURN_THROWS();
+			}
+		}
+	}
+
 	std::lock_guard guard(*object->lock);
 
 	if (object->connection != NULL) {
@@ -194,7 +206,7 @@ PEER_CONNECTION_METHOD(setRemoteAnswer) {
 
 	auto object = PEER_CONNECTION_THIS();
 
-	std::lock_guard guard(*object->lock);
+	std::lock_guard guard(*object->lock);\
 	REQUIRE_CONNECTION(object);
 
 	if (!remote_description_within_limit(sdp, (*object->shared)->max_remote_description)) {

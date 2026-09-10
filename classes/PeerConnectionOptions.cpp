@@ -326,6 +326,18 @@ OPTIONS_METHOD(setIceTcpEnabled) {
 	RETURN_OBJ_COPY(Z_OBJ_P(ZEND_THIS));
 }
 
+OPTIONS_METHOD(setIceUdpMuxEnabled) {
+	bool enable;
+
+	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+		Z_PARAM_BOOL(enable)
+	ZEND_PARSE_PARAMETERS_END();
+
+	OPTIONS_THIS()->config->enableIceUdpMux = enable;
+
+	RETURN_OBJ_COPY(Z_OBJ_P(ZEND_THIS));
+}
+
 OPTIONS_METHOD(setIceTransportPolicy) {
 	zval* policy_zval;
 
@@ -432,6 +444,12 @@ OPTIONS_METHOD(isIceTcpEnabled) {
 	WEBRTC_PARSE_NO_PARAMETERS();
 
 	RETURN_BOOL(OPTIONS_THIS()->config->enableIceTcp);
+}
+
+OPTIONS_METHOD(isIceUdpMuxEnabled) {
+	WEBRTC_PARSE_NO_PARAMETERS();
+
+	RETURN_BOOL(OPTIONS_THIS()->config->enableIceUdpMux);
 }
 
 zend_class_entry* init_class_PeerConnectionOptions() {

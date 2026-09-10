@@ -106,6 +106,17 @@ final class PeerConnectionOptions
     public function setIceTcpEnabled(bool $enable): PeerConnectionOptions {}
 
     /**
+     * Share a single UDP socket across all connections instead of binding a
+     * separate socket per connection. Disabled by default.
+     *
+     * When enabled, all connections share the same port, allowing multiple
+     * connections through a single forwarded port.
+     *
+     * TURN servers and ICE TCP are not supported in this mode.
+     */
+    public function setIceUdpMuxEnabled(bool $enable): PeerConnectionOptions {}
+
+    /**
      * Restrict which candidate types may be used. RELAY forces every path
      * through a TURN server, so it needs at least one configured.
      */
@@ -132,4 +143,6 @@ final class PeerConnectionOptions
     public function getKeyPemPass(): ?string {}
 
     public function isIceTcpEnabled(): bool {}
+
+    public function isIceUdpMuxEnabled(): bool {}
 }
