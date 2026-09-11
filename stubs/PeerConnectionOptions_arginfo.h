@@ -1,5 +1,5 @@
 /* This is a generated file, edit the .stub.php file instead.
- * Stub hash: c95dd67f266c59e19b02c5707475984d405252e2 */
+ * Stub hash: f015d18ac4293368359105aa03db7c3e36f0b102 */
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_class_pmmp_webrtc_PeerConnectionOptions___construct, 0, 0, 0)
 ZEND_END_ARG_INFO()
@@ -43,6 +43,8 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_class_pmmp_webrtc_PeerConnectionO
 	ZEND_ARG_TYPE_INFO(0, end, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
+#define arginfo_class_pmmp_webrtc_PeerConnectionOptions_setMtu arginfo_class_pmmp_webrtc_PeerConnectionOptions_setMaxMessageSize
+
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_class_pmmp_webrtc_PeerConnectionOptions_setBindAddress, 0, 1, pmmp\\webrtc\\PeerConnectionOptions, 0)
 	ZEND_ARG_TYPE_INFO(0, address, IS_STRING, 1)
 ZEND_END_ARG_INFO()
@@ -75,6 +77,8 @@ ZEND_END_ARG_INFO()
 
 #define arginfo_class_pmmp_webrtc_PeerConnectionOptions_getPortRangeEnd arginfo_class_pmmp_webrtc_PeerConnectionOptions_getMaxReceiveQueueSize
 
+#define arginfo_class_pmmp_webrtc_PeerConnectionOptions_getMtu arginfo_class_pmmp_webrtc_PeerConnectionOptions_getMaxReceiveQueueSize
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_class_pmmp_webrtc_PeerConnectionOptions_getBindAddress, 0, 0, IS_STRING, 1)
 ZEND_END_ARG_INFO()
 
@@ -104,6 +108,7 @@ ZEND_METHOD(pmmp_webrtc_PeerConnectionOptions, setMaxPendingDataChannels);
 ZEND_METHOD(pmmp_webrtc_PeerConnectionOptions, getMaxPendingDataChannels);
 ZEND_METHOD(pmmp_webrtc_PeerConnectionOptions, setIceServers);
 ZEND_METHOD(pmmp_webrtc_PeerConnectionOptions, setPortRange);
+ZEND_METHOD(pmmp_webrtc_PeerConnectionOptions, setMtu);
 ZEND_METHOD(pmmp_webrtc_PeerConnectionOptions, setBindAddress);
 ZEND_METHOD(pmmp_webrtc_PeerConnectionOptions, setCertificate);
 ZEND_METHOD(pmmp_webrtc_PeerConnectionOptions, setIceTcpEnabled);
@@ -114,6 +119,7 @@ ZEND_METHOD(pmmp_webrtc_PeerConnectionOptions, getMaxMessageSize);
 ZEND_METHOD(pmmp_webrtc_PeerConnectionOptions, getIceServers);
 ZEND_METHOD(pmmp_webrtc_PeerConnectionOptions, getPortRangeBegin);
 ZEND_METHOD(pmmp_webrtc_PeerConnectionOptions, getPortRangeEnd);
+ZEND_METHOD(pmmp_webrtc_PeerConnectionOptions, getMtu);
 ZEND_METHOD(pmmp_webrtc_PeerConnectionOptions, getBindAddress);
 ZEND_METHOD(pmmp_webrtc_PeerConnectionOptions, getCertificatePemFile);
 ZEND_METHOD(pmmp_webrtc_PeerConnectionOptions, getKeyPemFile);
@@ -137,6 +143,7 @@ static const zend_function_entry class_pmmp_webrtc_PeerConnectionOptions_methods
 	ZEND_ME(pmmp_webrtc_PeerConnectionOptions, getMaxPendingDataChannels, arginfo_class_pmmp_webrtc_PeerConnectionOptions_getMaxPendingDataChannels, ZEND_ACC_PUBLIC)
 	ZEND_ME(pmmp_webrtc_PeerConnectionOptions, setIceServers, arginfo_class_pmmp_webrtc_PeerConnectionOptions_setIceServers, ZEND_ACC_PUBLIC)
 	ZEND_ME(pmmp_webrtc_PeerConnectionOptions, setPortRange, arginfo_class_pmmp_webrtc_PeerConnectionOptions_setPortRange, ZEND_ACC_PUBLIC)
+	ZEND_ME(pmmp_webrtc_PeerConnectionOptions, setMtu, arginfo_class_pmmp_webrtc_PeerConnectionOptions_setMtu, ZEND_ACC_PUBLIC)
 	ZEND_ME(pmmp_webrtc_PeerConnectionOptions, setBindAddress, arginfo_class_pmmp_webrtc_PeerConnectionOptions_setBindAddress, ZEND_ACC_PUBLIC)
 	ZEND_ME(pmmp_webrtc_PeerConnectionOptions, setCertificate, arginfo_class_pmmp_webrtc_PeerConnectionOptions_setCertificate, ZEND_ACC_PUBLIC)
 	ZEND_ME(pmmp_webrtc_PeerConnectionOptions, setIceTcpEnabled, arginfo_class_pmmp_webrtc_PeerConnectionOptions_setIceTcpEnabled, ZEND_ACC_PUBLIC)
@@ -147,6 +154,7 @@ static const zend_function_entry class_pmmp_webrtc_PeerConnectionOptions_methods
 	ZEND_ME(pmmp_webrtc_PeerConnectionOptions, getIceServers, arginfo_class_pmmp_webrtc_PeerConnectionOptions_getIceServers, ZEND_ACC_PUBLIC)
 	ZEND_ME(pmmp_webrtc_PeerConnectionOptions, getPortRangeBegin, arginfo_class_pmmp_webrtc_PeerConnectionOptions_getPortRangeBegin, ZEND_ACC_PUBLIC)
 	ZEND_ME(pmmp_webrtc_PeerConnectionOptions, getPortRangeEnd, arginfo_class_pmmp_webrtc_PeerConnectionOptions_getPortRangeEnd, ZEND_ACC_PUBLIC)
+	ZEND_ME(pmmp_webrtc_PeerConnectionOptions, getMtu, arginfo_class_pmmp_webrtc_PeerConnectionOptions_getMtu, ZEND_ACC_PUBLIC)
 	ZEND_ME(pmmp_webrtc_PeerConnectionOptions, getBindAddress, arginfo_class_pmmp_webrtc_PeerConnectionOptions_getBindAddress, ZEND_ACC_PUBLIC)
 	ZEND_ME(pmmp_webrtc_PeerConnectionOptions, getCertificatePemFile, arginfo_class_pmmp_webrtc_PeerConnectionOptions_getCertificatePemFile, ZEND_ACC_PUBLIC)
 	ZEND_ME(pmmp_webrtc_PeerConnectionOptions, getKeyPemFile, arginfo_class_pmmp_webrtc_PeerConnectionOptions_getKeyPemFile, ZEND_ACC_PUBLIC)

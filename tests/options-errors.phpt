@@ -51,6 +51,18 @@ try {
 }
 
 try {
+	$options->setMtu(619);
+} catch (ValueError $e) {
+	echo $e->getMessage(), PHP_EOL;
+}
+
+try {
+	$options->setMtu(4145);
+} catch (ValueError $e) {
+	echo $e->getMessage(), PHP_EOL;
+}
+
+try {
 	$options->setIceServers("not an ice server");
 } catch (TypeError $e) {
 	echo get_class($e), PHP_EOL;
@@ -70,5 +82,7 @@ try {
 %sArgument #2 ($keyPemFile) must be a readable file ("%sno-such-key.pem": no such file or directory)
 %smust be between 1 and 65535
 %smust be between the start port and 65535
+%smust be between 620 and 4144
+%smust be between 620 and 4144
 TypeError
 Error

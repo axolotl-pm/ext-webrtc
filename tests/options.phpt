@@ -9,6 +9,7 @@ use pmmp\webrtc\PeerConnectionOptions;
 
 $defaults = PeerConnectionOptions::create();
 var_dump($defaults->getMaxMessageSize());
+var_dump($defaults->getMtu());
 var_dump($defaults->getIceServers());
 var_dump($defaults->getBindAddress());
 var_dump($defaults->getCertificatePemFile());
@@ -21,6 +22,7 @@ $pem = __FILE__;
 
 $options
 	->setPortRange(50000, 50100)
+	->setMtu(1400)
 	->setBindAddress("127.0.0.1")
 	->setCertificate($pem, $pem, "secret")
 	->setIceTcpEnabled(true)
@@ -32,6 +34,7 @@ $options
 var_dump($options->getMaxMessageSize());
 var_dump($options->getPortRangeBegin());
 var_dump($options->getPortRangeEnd());
+var_dump($options->getMtu());
 var_dump($options->getBindAddress());
 var_dump($options->getCertificatePemFile() === $pem);
 var_dump($options->getKeyPemFile() === $pem);
@@ -47,6 +50,7 @@ var_dump($options->setBindAddress(null)->getBindAddress());
 ?>
 --EXPECT--
 int(0)
+int(0)
 array(0) {
 }
 NULL
@@ -56,6 +60,7 @@ bool(true)
 int(262144)
 int(50000)
 int(50100)
+int(1400)
 string(9) "127.0.0.1"
 bool(true)
 bool(true)

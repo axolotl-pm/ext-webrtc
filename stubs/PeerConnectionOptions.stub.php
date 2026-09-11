@@ -87,6 +87,16 @@ final class PeerConnectionOptions
     public function setPortRange(int $begin, int $end): PeerConnectionOptions {}
 
     /**
+     * Maximum transmission unit (MTU) in bytes.
+     *
+     * The MTU must be at least 620 bytes for SCTP negotiation to succeed, and
+     * at most 4144 bytes to prevent incoming packets from being truncated.
+     *
+     * @throws \ValueError if the size is outside 620..4144
+     */
+    public function setMtu(int $bytes): PeerConnectionOptions {}
+
+    /**
      * Restrict candidate gathering to a single local address.
      */
     public function setBindAddress(?string $address): PeerConnectionOptions {}
@@ -133,6 +143,9 @@ final class PeerConnectionOptions
     public function getPortRangeBegin(): int {}
 
     public function getPortRangeEnd(): int {}
+
+    /** Returns 0 if no explicit MTU is set. */
+    public function getMtu(): int {}
 
     public function getBindAddress(): ?string {}
 

@@ -17,6 +17,9 @@ extern "C" {
 
 #define OPTIONS_MAX_MESSAGE_SIZE_LIMIT (256 * 1024 * 1024)
 
+#define OPTIONS_MIN_MTU 620
+#define OPTIONS_MAX_MTU 4144
+
 typedef struct _peer_connection_options_zend_object {
 	rtc::Configuration* config;
 	size_t max_receive_queue;

@@ -265,6 +265,23 @@ OPTIONS_METHOD(setPortRange) {
 	RETURN_OBJ_COPY(Z_OBJ_P(ZEND_THIS));
 }
 
+OPTIONS_METHOD(setMtu) {
+	zend_long bytes;
+
+	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+		Z_PARAM_LONG(bytes)
+	ZEND_PARSE_PARAMETERS_END();
+
+	if (bytes < OPTIONS_MIN_MTU || bytes > OPTIONS_MAX_MTU) {
+		zend_argument_value_error(1, "must be between %d and %d", OPTIONS_MIN_MTU, OPTIONS_MAX_MTU);
+		RETURN_THROWS();
+	}
+
+	OPTIONS_THIS()->config->mtu = static_cast<size_t>(bytes);
+
+	RETURN_OBJ_COPY(Z_OBJ_P(ZEND_THIS));
+}
+
 OPTIONS_METHOD(setBindAddress) {
 	zend_string* address = NULL;
 
@@ -398,6 +415,13 @@ OPTIONS_METHOD(getPortRangeEnd) {
 	WEBRTC_PARSE_NO_PARAMETERS();
 
 	RETURN_LONG(OPTIONS_THIS()->config->portRangeEnd);
+}
+
+OPTIONS_METHOD(getMtu) {
+	WEBRTC_PARSE_NO_PARAMETERS();
+
+	auto config = OPTIONS_THIS()->config;
+	RETURN_LONG(config->mtu.has_value() ? static_cast<zend_long>(*config->mtu) : 0);
 }
 
 OPTIONS_METHOD(getBindAddress) {
