@@ -8,7 +8,7 @@
 extern zend_module_entry webrtc_module_entry;
 #define phpext_webrtc_ptr &webrtc_module_entry
 
-#define PHP_WEBRTC_VERSION "0.1.0"
+#define PHP_WEBRTC_VERSION "0.2.0"
 
 #if defined(ZTS) && defined(COMPILE_DL_WEBRTC)
 ZEND_TSRMLS_CACHE_EXTERN()
