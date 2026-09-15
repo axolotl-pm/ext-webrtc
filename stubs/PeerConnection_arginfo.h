@@ -1,5 +1,5 @@
 /* This is a generated file, edit the .stub.php file instead.
- * Stub hash: 87de6e72819a87a32db834b2c15e6f7b6eeab2ae */
+ * Stub hash: c7d8e9f5c94b4fea620f97b9bd8633cb37883e9b */
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_class_pmmp_webrtc_PeerConnection___construct, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, options, pmmp\\webrtc\\PeerConnectionOptions, 0)
@@ -29,6 +29,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_class_pmmp_webrtc_PeerConnection_
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_class_pmmp_webrtc_PeerConnection_getState, 0, 0, pmmp\\webrtc\\ConnectionState, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_class_pmmp_webrtc_PeerConnection_getFailureState, 0, 0, pmmp\\webrtc\\ConnectionState, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_class_pmmp_webrtc_PeerConnection_getSignalingState, 0, 0, pmmp\\webrtc\\SignalingState, 0)
@@ -72,6 +75,7 @@ ZEND_METHOD(pmmp_webrtc_PeerConnection, pollLocalCandidates);
 ZEND_METHOD(pmmp_webrtc_PeerConnection, addRemoteCandidate);
 ZEND_METHOD(pmmp_webrtc_PeerConnection, getGatheringState);
 ZEND_METHOD(pmmp_webrtc_PeerConnection, getState);
+ZEND_METHOD(pmmp_webrtc_PeerConnection, getFailureState);
 ZEND_METHOD(pmmp_webrtc_PeerConnection, getSignalingState);
 ZEND_METHOD(pmmp_webrtc_PeerConnection, isNegotiationNeeded);
 ZEND_METHOD(pmmp_webrtc_PeerConnection, getLocalDescription);
@@ -96,6 +100,7 @@ static const zend_function_entry class_pmmp_webrtc_PeerConnection_methods[] = {
 	ZEND_ME(pmmp_webrtc_PeerConnection, addRemoteCandidate, arginfo_class_pmmp_webrtc_PeerConnection_addRemoteCandidate, ZEND_ACC_PUBLIC)
 	ZEND_ME(pmmp_webrtc_PeerConnection, getGatheringState, arginfo_class_pmmp_webrtc_PeerConnection_getGatheringState, ZEND_ACC_PUBLIC)
 	ZEND_ME(pmmp_webrtc_PeerConnection, getState, arginfo_class_pmmp_webrtc_PeerConnection_getState, ZEND_ACC_PUBLIC)
+	ZEND_ME(pmmp_webrtc_PeerConnection, getFailureState, arginfo_class_pmmp_webrtc_PeerConnection_getFailureState, ZEND_ACC_PUBLIC)
 	ZEND_ME(pmmp_webrtc_PeerConnection, getSignalingState, arginfo_class_pmmp_webrtc_PeerConnection_getSignalingState, ZEND_ACC_PUBLIC)
 	ZEND_ME(pmmp_webrtc_PeerConnection, isNegotiationNeeded, arginfo_class_pmmp_webrtc_PeerConnection_isNegotiationNeeded, ZEND_ACC_PUBLIC)
 	ZEND_ME(pmmp_webrtc_PeerConnection, getLocalDescription, arginfo_class_pmmp_webrtc_PeerConnection_getLocalDescription, ZEND_ACC_PUBLIC)

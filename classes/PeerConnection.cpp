@@ -12,6 +12,7 @@ extern "C" {
 #include "Enums.h"
 #include "WebRtcException.h"
 
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
@@ -158,6 +159,20 @@ PEER_CONNECTION_METHOD(__construct) {
 			try {
 				std::lock_guard guard(shared->lock);
 				shared->gathering_state = state;
+			} catch (...) {
+			}
+		});
+
+		object->connection->onStateChange([shared](rtc::PeerConnection::State state) {
+			if (state != rtc::PeerConnection::State::Failed && state != rtc::PeerConnection::State::Disconnected) {
+				return;
+			}
+
+			try {
+				std::lock_guard guard(shared->lock);
+				if (shared->failure_state != rtc::PeerConnection::State::Failed) {
+					shared->failure_state = state;
+				}
 			} catch (...) {
 			}
 		});
@@ -355,7 +370,6 @@ PEER_CONNECTION_METHOD(getGatheringState) {
 	REQUIRE_CONNECTION(object);
 
 	WEBRTC_TRY
-		/* the callbacks' view, not the connection's; see peer_connection_shared */
 		auto shared = *object->shared;
 		rtc::PeerConnection::GatheringState state;
 		{
@@ -379,6 +393,32 @@ PEER_CONNECTION_METHOD(getState) {
 
 	WEBRTC_TRY
 		if (!webrtc_set_enum(return_value, connection_state_ce, static_cast<zend_long>(object->connection->state()))) {
+			RETURN_THROWS();
+		}
+	WEBRTC_CATCH
+}
+
+PEER_CONNECTION_METHOD(getFailureState) {
+	WEBRTC_PARSE_NO_PARAMETERS();
+
+	auto object = PEER_CONNECTION_THIS();
+
+	std::lock_guard guard(*object->lock);
+	REQUIRE_CONNECTION(object);
+
+	WEBRTC_TRY
+		auto shared = *object->shared;
+		std::optional<rtc::PeerConnection::State> state;
+		{
+			std::lock_guard shared_guard(shared->lock);
+			state = shared->failure_state;
+		}
+
+		if (!state.has_value()) {
+			RETURN_NULL();
+		}
+
+		if (!webrtc_set_enum(return_value, connection_state_ce, static_cast<zend_long>(*state))) {
 			RETURN_THROWS();
 		}
 	WEBRTC_CATCH

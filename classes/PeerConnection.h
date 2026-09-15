@@ -12,6 +12,7 @@ extern "C" {
 
 #include <memory>
 #include <mutex>
+#include <optional>
 #include <vector>
 
 struct peer_connection_shared {
@@ -28,6 +29,13 @@ struct peer_connection_shared {
 	 * reports.
 	 */
 	rtc::PeerConnection::GatheringState gathering_state = rtc::PeerConnection::GatheringState::New;
+	/*
+	 * Failed or Disconnected as observed by the callback. The connection
+	 * transitions to Closed immediately after reporting either, so the state
+	 * it reports never reflects them long enough to be polled. Failed takes
+	 * precedence over Disconnected regardless of which comes first.
+	 */
+	std::optional<rtc::PeerConnection::State> failure_state;
 	/* all taken from the options at construction; zero means no limit */
 	size_t max_pending_channels = 0;
 	size_t max_send_queue = 0;
