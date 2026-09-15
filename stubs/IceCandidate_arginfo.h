@@ -1,5 +1,5 @@
 /* This is a generated file, edit the .stub.php file instead.
- * Stub hash: f7cb37eb65a4fbfdd7b1a8ec0836d04f5671f618 */
+ * Stub hash: 371c029546c7549e94968e90b52831a739ad3f01 */
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_class_pmmp_webrtc_IceCandidate___construct, 0, 0, 0)
 ZEND_END_ARG_INFO()

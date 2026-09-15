@@ -1,5 +1,5 @@
 /* This is a generated file, edit the .stub.php file instead.
- * Stub hash: f015d18ac4293368359105aa03db7c3e36f0b102 */
+ * Stub hash: 492e0f5823f334010717c0a3244c12bb185800e8 */
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_class_pmmp_webrtc_PeerConnectionOptions___construct, 0, 0, 0)
 ZEND_END_ARG_INFO()

@@ -119,9 +119,6 @@ PEER_CONNECTION_METHOD(__construct) {
 	auto object = PEER_CONNECTION_THIS();
 	auto options = OPTIONS_FROM_ZVAL(options_zval);
 
-	/*
-	 * TURN servers cannot be used when ICE UDP multiplexing is enabled.
-	 */
 	if (options->config->enableIceUdpMux) {
 		for (const auto& server : options->config->iceServers) {
 			if (server.type == rtc::IceServer::Type::Turn) {
@@ -644,7 +641,6 @@ PEER_CONNECTION_METHOD(close) {
 	WEBRTC_CATCH
 
 	if (object->connection == NULL) {
-		/* already closed; nothing further to do */
 		return;
 	}
 

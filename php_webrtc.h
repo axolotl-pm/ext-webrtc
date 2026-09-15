@@ -1,7 +1,3 @@
-//
-// Created by minjae on 2026-08-04.
-//
-
 #ifndef EXT_WEBRTC_PHP_WEBRTC_H
 #define EXT_WEBRTC_PHP_WEBRTC_H
 

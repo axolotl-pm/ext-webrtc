@@ -1,36 +1,9 @@
 /* This is a generated file, edit the .stub.php file instead.
- * Stub hash: a4403c235b232bd91e38fa1ecf5bbeef6e6570a0 */
-
-
-
-
-static const zend_function_entry class_pmmp_webrtc_GatheringState_methods[] = {
-	ZEND_FE_END
-};
-
-
-static const zend_function_entry class_pmmp_webrtc_ConnectionState_methods[] = {
-	ZEND_FE_END
-};
-
-
-static const zend_function_entry class_pmmp_webrtc_RelayType_methods[] = {
-	ZEND_FE_END
-};
-
-
-static const zend_function_entry class_pmmp_webrtc_SignalingState_methods[] = {
-	ZEND_FE_END
-};
-
-
-static const zend_function_entry class_pmmp_webrtc_TransportPolicy_methods[] = {
-	ZEND_FE_END
-};
+ * Stub hash: 897f05c34bfb690b88ac62b9b8bc6509dbd142ea */
 
 static zend_class_entry *register_class_pmmp_webrtc_GatheringState(void)
 {
-	zend_class_entry *class_entry = zend_register_internal_enum("pmmp\\webrtc\\GatheringState", IS_LONG, class_pmmp_webrtc_GatheringState_methods);
+	zend_class_entry *class_entry = zend_register_internal_enum("pmmp\\webrtc\\GatheringState", IS_LONG, NULL);
 
 	zval enum_case_NOT_STARTED_value;
 	ZVAL_LONG(&enum_case_NOT_STARTED_value, 0);
@@ -49,7 +22,7 @@ static zend_class_entry *register_class_pmmp_webrtc_GatheringState(void)
 
 static zend_class_entry *register_class_pmmp_webrtc_ConnectionState(void)
 {
-	zend_class_entry *class_entry = zend_register_internal_enum("pmmp\\webrtc\\ConnectionState", IS_LONG, class_pmmp_webrtc_ConnectionState_methods);
+	zend_class_entry *class_entry = zend_register_internal_enum("pmmp\\webrtc\\ConnectionState", IS_LONG, NULL);
 
 	zval enum_case_NOT_STARTED_value;
 	ZVAL_LONG(&enum_case_NOT_STARTED_value, 0);
@@ -80,7 +53,7 @@ static zend_class_entry *register_class_pmmp_webrtc_ConnectionState(void)
 
 static zend_class_entry *register_class_pmmp_webrtc_RelayType(void)
 {
-	zend_class_entry *class_entry = zend_register_internal_enum("pmmp\\webrtc\\RelayType", IS_LONG, class_pmmp_webrtc_RelayType_methods);
+	zend_class_entry *class_entry = zend_register_internal_enum("pmmp\\webrtc\\RelayType", IS_LONG, NULL);
 
 	zval enum_case_UDP_value;
 	ZVAL_LONG(&enum_case_UDP_value, 0);
@@ -99,7 +72,7 @@ static zend_class_entry *register_class_pmmp_webrtc_RelayType(void)
 
 static zend_class_entry *register_class_pmmp_webrtc_SignalingState(void)
 {
-	zend_class_entry *class_entry = zend_register_internal_enum("pmmp\\webrtc\\SignalingState", IS_LONG, class_pmmp_webrtc_SignalingState_methods);
+	zend_class_entry *class_entry = zend_register_internal_enum("pmmp\\webrtc\\SignalingState", IS_LONG, NULL);
 
 	zval enum_case_STABLE_value;
 	ZVAL_LONG(&enum_case_STABLE_value, 0);
@@ -126,7 +99,7 @@ static zend_class_entry *register_class_pmmp_webrtc_SignalingState(void)
 
 static zend_class_entry *register_class_pmmp_webrtc_TransportPolicy(void)
 {
-	zend_class_entry *class_entry = zend_register_internal_enum("pmmp\\webrtc\\TransportPolicy", IS_LONG, class_pmmp_webrtc_TransportPolicy_methods);
+	zend_class_entry *class_entry = zend_register_internal_enum("pmmp\\webrtc\\TransportPolicy", IS_LONG, NULL);
 
 	zval enum_case_ALL_value;
 	ZVAL_LONG(&enum_case_ALL_value, 0);

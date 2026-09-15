@@ -25,8 +25,8 @@ struct peer_connection_shared {
 	/* cleared by close(), so a callback still in flight stops queueing */
 	bool accepting = true;
 	/*
-	 * Gathering as the callbacks saw it, which is not what the connection
-	 * reports.
+	 * Gathering state as observed by the callback, which differs from what
+	 * the connection reports.
 	 */
 	rtc::PeerConnection::GatheringState gathering_state = rtc::PeerConnection::GatheringState::New;
 	/*

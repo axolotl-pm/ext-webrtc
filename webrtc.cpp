@@ -75,11 +75,12 @@ PHP_MINIT_FUNCTION(webrtc) {
 
 PHP_MSHUTDOWN_FUNCTION(webrtc) {
 	try {
-		// libdatachannel maintains their global thread pool that outlives every connection.
-		// In here, we try calling a cleanup so that libdatachannel can cleanup all existing connections.
-		// Skipping this races the interpreter shutdown against those threads and segfaults after the
-		// script has already finished, so we leave a message here rather than let it look accidental.
-		if (rtc::Cleanup().wait_for(std::chrono::seconds(10)) == std::future_status::timeout) { // 10s timeout from libdatachannel C bindings
+		/*
+		 * libdatachannel runs background worker threads that outlive individual
+		 * connections. Shut them down here to prevent interpreter shutdown from
+		 * racing against active threads and crashing after script completion.
+		 */
+		if (rtc::Cleanup().wait_for(std::chrono::seconds(10)) == std::future_status::timeout) {
 			fprintf(stderr, "webrtc: timed out unloading libdatachannel\n");
 		}
 	} catch (...) {
