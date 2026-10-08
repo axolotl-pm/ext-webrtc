@@ -361,8 +361,6 @@ DATA_CHANNEL_METHOD(peek) {
 	auto object = DATA_CHANNEL_THIS();
 	REQUIRE_CHANNEL(object);
 
-	rtc::message_variant message;
-
 	WEBRTC_TRY
 		auto state = *object->state;
 		std::lock_guard guard(state->lock);
@@ -372,10 +370,8 @@ DATA_CHANNEL_METHOD(peek) {
 			RETURN_NULL();
 		}
 
-		message = state->queue.front();
+		return_message(return_value, state->queue.front());
 	WEBRTC_CATCH
-
-	return_message(return_value, message);
 }
 
 DATA_CHANNEL_METHOD(close) {
