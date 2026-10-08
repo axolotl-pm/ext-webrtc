@@ -47,7 +47,11 @@ DATA_CHANNEL_OPTIONS_METHOD(create) {
 DATA_CHANNEL_OPTIONS_METHOD(setUnordered) {
 	bool unordered;
 
+#if PHP_VERSION_ID >= 80600
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+#else
 	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+#endif
 		Z_PARAM_BOOL(unordered)
 	ZEND_PARSE_PARAMETERS_END();
 
@@ -60,7 +64,11 @@ DATA_CHANNEL_OPTIONS_METHOD(setMaxRetransmits) {
 	zend_long count;
 	bool count_is_null;
 
+#if PHP_VERSION_ID >= 80600
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+#else
 	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+#endif
 		Z_PARAM_LONG_OR_NULL(count, count_is_null)
 	ZEND_PARSE_PARAMETERS_END();
 
@@ -88,7 +96,11 @@ DATA_CHANNEL_OPTIONS_METHOD(setMaxPacketLifeTime) {
 	zend_long milliseconds;
 	bool milliseconds_is_null;
 
+#if PHP_VERSION_ID >= 80600
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+#else
 	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+#endif
 		Z_PARAM_LONG_OR_NULL(milliseconds, milliseconds_is_null)
 	ZEND_PARSE_PARAMETERS_END();
 
@@ -117,7 +129,11 @@ DATA_CHANNEL_OPTIONS_METHOD(setMaxPacketLifeTime) {
 DATA_CHANNEL_OPTIONS_METHOD(setProtocol) {
 	zend_string* protocol;
 
+#if PHP_VERSION_ID >= 80600
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+#else
 	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+#endif
 		Z_PARAM_STR(protocol)
 	ZEND_PARSE_PARAMETERS_END();
 
@@ -131,7 +147,11 @@ DATA_CHANNEL_OPTIONS_METHOD(setProtocol) {
 DATA_CHANNEL_OPTIONS_METHOD(setNegotiated) {
 	bool negotiated;
 
+#if PHP_VERSION_ID >= 80600
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+#else
 	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+#endif
 		Z_PARAM_BOOL(negotiated)
 	ZEND_PARSE_PARAMETERS_END();
 
@@ -144,7 +164,11 @@ DATA_CHANNEL_OPTIONS_METHOD(setId) {
 	zend_long id;
 	bool id_is_null;
 
+#if PHP_VERSION_ID >= 80600
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+#else
 	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+#endif
 		Z_PARAM_LONG_OR_NULL(id, id_is_null)
 	ZEND_PARSE_PARAMETERS_END();
 
@@ -219,7 +243,7 @@ zend_class_entry* init_class_DataChannelOptions() {
 	data_channel_options_ce->create_object = data_channel_options_new;
 
 	data_channel_options_zend_object_handlers = *zend_get_std_object_handlers();
-	data_channel_options_zend_object_handlers.offset = XtOffsetOf(data_channel_options_zend_object, std);
+	data_channel_options_zend_object_handlers.offset = offsetof(data_channel_options_zend_object, std);
 	data_channel_options_zend_object_handlers.free_obj = data_channel_options_free;
 	data_channel_options_zend_object_handlers.clone_obj = NULL;
 

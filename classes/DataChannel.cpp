@@ -283,7 +283,11 @@ DATA_CHANNEL_METHOD(getQueuedMessageCount) {
 DATA_CHANNEL_METHOD(send) {
 	zend_string* data;
 
+#if PHP_VERSION_ID >= 80600
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+#else
 	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+#endif
 		Z_PARAM_STR(data)
 	ZEND_PARSE_PARAMETERS_END();
 
@@ -393,7 +397,7 @@ zend_class_entry* init_class_DataChannel() {
 	data_channel_ce->create_object = data_channel_new;
 
 	data_channel_zend_object_handlers = *zend_get_std_object_handlers();
-	data_channel_zend_object_handlers.offset = XtOffsetOf(data_channel_zend_object, std);
+	data_channel_zend_object_handlers.offset = offsetof(data_channel_zend_object, std);
 	data_channel_zend_object_handlers.free_obj = data_channel_free;
 	data_channel_zend_object_handlers.clone_obj = NULL;
 

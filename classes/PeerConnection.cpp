@@ -112,7 +112,11 @@ static void peer_connection_free(zend_object* std) {
 PEER_CONNECTION_METHOD(__construct) {
 	zval* options_zval;
 
+#if PHP_VERSION_ID >= 80600
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+#else
 	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+#endif
 		Z_PARAM_OBJECT_OF_CLASS(options_zval, peer_connection_options_ce)
 	ZEND_PARSE_PARAMETERS_END();
 
@@ -212,7 +216,11 @@ PEER_CONNECTION_METHOD(__construct) {
 PEER_CONNECTION_METHOD(setRemoteAnswer) {
 	zend_string* sdp;
 
+#if PHP_VERSION_ID >= 80600
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+#else
 	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+#endif
 		Z_PARAM_STR(sdp)
 	ZEND_PARSE_PARAMETERS_END();
 
@@ -236,7 +244,11 @@ PEER_CONNECTION_METHOD(createDataChannel) {
 	zend_string* label;
 	zval* options_zval = NULL;
 
+#if PHP_VERSION_ID >= 80600
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+#else
 	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 2)
+#endif
 		Z_PARAM_STR(label)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(options_zval, data_channel_options_ce)
@@ -315,7 +327,11 @@ PEER_CONNECTION_METHOD(pollLocalCandidates) {
 PEER_CONNECTION_METHOD(addRemoteCandidate) {
 	zval* candidate_zval;
 
+#if PHP_VERSION_ID >= 80600
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+#else
 	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+#endif
 		Z_PARAM_OBJECT_OF_CLASS(candidate_zval, ice_candidate_ce)
 	ZEND_PARSE_PARAMETERS_END();
 
@@ -338,7 +354,11 @@ PEER_CONNECTION_METHOD(addRemoteCandidate) {
 PEER_CONNECTION_METHOD(setRemoteOffer) {
 	zend_string* sdp;
 
+#if PHP_VERSION_ID >= 80600
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+#else
 	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+#endif
 		Z_PARAM_STR(sdp)
 	ZEND_PARSE_PARAMETERS_END();
 
@@ -656,7 +676,7 @@ zend_class_entry* init_class_PeerConnection() {
 	peer_connection_ce->create_object = peer_connection_new;
 
 	peer_connection_zend_object_handlers = *zend_get_std_object_handlers();
-	peer_connection_zend_object_handlers.offset = XtOffsetOf(peer_connection_zend_object, std);
+	peer_connection_zend_object_handlers.offset = offsetof(peer_connection_zend_object, std);
 	peer_connection_zend_object_handlers.free_obj = peer_connection_free;
 	peer_connection_zend_object_handlers.clone_obj = NULL;
 

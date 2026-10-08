@@ -55,7 +55,11 @@ ICE_CANDIDATE_METHOD(create) {
 	zend_string* candidate;
 	zend_string* mid = NULL;
 
+#if PHP_VERSION_ID >= 80600
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+#else
 	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 2)
+#endif
 		Z_PARAM_STR(candidate)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR_OR_NULL(mid)
@@ -111,7 +115,7 @@ zend_class_entry* init_class_IceCandidate(void) {
 	ice_candidate_ce->create_object = ice_candidate_new;
 
 	ice_candidate_zend_object_handlers = *zend_get_std_object_handlers();
-	ice_candidate_zend_object_handlers.offset = XtOffsetOf(ice_candidate_zend_object, std);
+	ice_candidate_zend_object_handlers.offset = offsetof(ice_candidate_zend_object, std);
 	ice_candidate_zend_object_handlers.free_obj = ice_candidate_free;
 	ice_candidate_zend_object_handlers.clone_obj = NULL;
 

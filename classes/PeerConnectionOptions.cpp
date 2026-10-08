@@ -78,7 +78,11 @@ OPTIONS_METHOD(create) {
 OPTIONS_METHOD(setMaxMessageSize) {
 	zend_long bytes;
 
+#if PHP_VERSION_ID >= 80600
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+#else
 	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+#endif
 		Z_PARAM_LONG(bytes)
 	ZEND_PARSE_PARAMETERS_END();
 
@@ -95,7 +99,11 @@ OPTIONS_METHOD(setMaxMessageSize) {
 OPTIONS_METHOD(setMaxReceiveQueueSize) {
 	zend_long bytes;
 
+#if PHP_VERSION_ID >= 80600
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+#else
 	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+#endif
 		Z_PARAM_LONG(bytes)
 	ZEND_PARSE_PARAMETERS_END();
 
@@ -118,7 +126,11 @@ OPTIONS_METHOD(getMaxReceiveQueueSize) {
 OPTIONS_METHOD(setMaxReceiveQueueMessages) {
 	zend_long count;
 
+#if PHP_VERSION_ID >= 80600
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+#else
 	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+#endif
 		Z_PARAM_LONG(count)
 	ZEND_PARSE_PARAMETERS_END();
 
@@ -141,7 +153,11 @@ OPTIONS_METHOD(getMaxReceiveQueueMessages) {
 OPTIONS_METHOD(setMaxSendQueueSize) {
 	zend_long bytes;
 
+#if PHP_VERSION_ID >= 80600
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+#else
 	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+#endif
 		Z_PARAM_LONG(bytes)
 	ZEND_PARSE_PARAMETERS_END();
 
@@ -164,7 +180,11 @@ OPTIONS_METHOD(getMaxSendQueueSize) {
 OPTIONS_METHOD(setMaxRemoteDescriptionSize) {
 	zend_long bytes;
 
+#if PHP_VERSION_ID >= 80600
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+#else
 	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+#endif
 		Z_PARAM_LONG(bytes)
 	ZEND_PARSE_PARAMETERS_END();
 
@@ -187,7 +207,11 @@ OPTIONS_METHOD(getMaxRemoteDescriptionSize) {
 OPTIONS_METHOD(setMaxPendingDataChannels) {
 	zend_long count;
 
+#if PHP_VERSION_ID >= 80600
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+#else
 	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+#endif
 		Z_PARAM_LONG(count)
 	ZEND_PARSE_PARAMETERS_END();
 
@@ -211,7 +235,11 @@ OPTIONS_METHOD(setIceServers) {
 	zval* args = NULL;
 	uint32_t argc = 0;
 
+#if PHP_VERSION_ID >= 80600
+	ZEND_PARSE_PARAMETERS_START(0, -1)
+#else
 	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 0, -1)
+#endif
 		Z_PARAM_VARIADIC('*', args, argc)
 	ZEND_PARSE_PARAMETERS_END();
 
@@ -244,7 +272,11 @@ OPTIONS_METHOD(setPortRange) {
 	zend_long begin;
 	zend_long end;
 
+#if PHP_VERSION_ID >= 80600
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+#else
 	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 2, 2)
+#endif
 		Z_PARAM_LONG(begin)
 		Z_PARAM_LONG(end)
 	ZEND_PARSE_PARAMETERS_END();
@@ -268,7 +300,11 @@ OPTIONS_METHOD(setPortRange) {
 OPTIONS_METHOD(setMtu) {
 	zend_long bytes;
 
+#if PHP_VERSION_ID >= 80600
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+#else
 	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+#endif
 		Z_PARAM_LONG(bytes)
 	ZEND_PARSE_PARAMETERS_END();
 
@@ -285,7 +321,11 @@ OPTIONS_METHOD(setMtu) {
 OPTIONS_METHOD(setBindAddress) {
 	zend_string* address = NULL;
 
+#if PHP_VERSION_ID >= 80600
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+#else
 	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+#endif
 		Z_PARAM_STR_OR_NULL(address)
 	ZEND_PARSE_PARAMETERS_END();
 
@@ -306,7 +346,11 @@ OPTIONS_METHOD(setCertificate) {
 	zend_string* key_file;
 	zend_string* pass = NULL;
 
+#if PHP_VERSION_ID >= 80600
+	ZEND_PARSE_PARAMETERS_START(2, 3)
+#else
 	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 2, 3)
+#endif
 		Z_PARAM_PATH_STR(cert_file)
 		Z_PARAM_PATH_STR(key_file)
 		Z_PARAM_OPTIONAL
@@ -334,7 +378,11 @@ OPTIONS_METHOD(setCertificate) {
 OPTIONS_METHOD(setIceTcpEnabled) {
 	bool enable;
 
+#if PHP_VERSION_ID >= 80600
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+#else
 	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+#endif
 		Z_PARAM_BOOL(enable)
 	ZEND_PARSE_PARAMETERS_END();
 
@@ -346,7 +394,11 @@ OPTIONS_METHOD(setIceTcpEnabled) {
 OPTIONS_METHOD(setIceUdpMuxEnabled) {
 	bool enable;
 
+#if PHP_VERSION_ID >= 80600
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+#else
 	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+#endif
 		Z_PARAM_BOOL(enable)
 	ZEND_PARSE_PARAMETERS_END();
 
@@ -358,7 +410,11 @@ OPTIONS_METHOD(setIceUdpMuxEnabled) {
 OPTIONS_METHOD(setIceTransportPolicy) {
 	zval* policy_zval;
 
+#if PHP_VERSION_ID >= 80600
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+#else
 	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+#endif
 		Z_PARAM_OBJECT_OF_CLASS(policy_zval, transport_policy_ce)
 	ZEND_PARSE_PARAMETERS_END();
 
@@ -481,7 +537,7 @@ zend_class_entry* init_class_PeerConnectionOptions() {
 	peer_connection_options_ce->create_object = options_new;
 
 	peer_connection_options_zend_object_handlers = *zend_get_std_object_handlers();
-	peer_connection_options_zend_object_handlers.offset = XtOffsetOf(peer_connection_options_zend_object, std);
+	peer_connection_options_zend_object_handlers.offset = offsetof(peer_connection_options_zend_object, std);
 	peer_connection_options_zend_object_handlers.free_obj = options_free;
 	peer_connection_options_zend_object_handlers.clone_obj = NULL;
 

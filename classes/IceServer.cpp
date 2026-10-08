@@ -57,7 +57,11 @@ ICE_SERVER_METHOD(stun) {
 	zend_string* hostname;
 	zend_long port = 3478;
 
+#if PHP_VERSION_ID >= 80600
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+#else
 	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 2)
+#endif
 		Z_PARAM_STR(hostname)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_LONG(port)
@@ -86,7 +90,11 @@ ICE_SERVER_METHOD(turn) {
 	zend_long port;
 	zval* relay = NULL;
 
+#if PHP_VERSION_ID >= 80600
+	ZEND_PARSE_PARAMETERS_START(4, 5)
+#else
 	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 4, 5)
+#endif
 		Z_PARAM_STR(hostname)
 		Z_PARAM_LONG(port)
 		Z_PARAM_STR(username)
@@ -196,7 +204,7 @@ zend_class_entry* init_class_IceServer(void) {
 	ice_server_ce->create_object = ice_server_new;
 
 	ice_server_zend_object_handlers = *zend_get_std_object_handlers();
-	ice_server_zend_object_handlers.offset = XtOffsetOf(ice_server_zend_object, std);
+	ice_server_zend_object_handlers.offset = offsetof(ice_server_zend_object, std);
 	ice_server_zend_object_handlers.free_obj = ice_server_free;
 	ice_server_zend_object_handlers.clone_obj = NULL;
 

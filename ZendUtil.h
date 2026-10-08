@@ -9,7 +9,7 @@ extern "C" {
 
 template<typename class_name>
 static class_name* fetch_from_zend_object(zend_object* obj) {
-	return reinterpret_cast<class_name *>(reinterpret_cast<char *>(obj) - XtOffsetOf(class_name, std));
+	return reinterpret_cast<class_name *>(reinterpret_cast<char *>(obj) - offsetof(class_name, std));
 }
 
 template<typename class_name>
@@ -25,7 +25,7 @@ static class_name* alloc_custom_zend_object(zend_class_entry* ce, zend_object_ha
 }
 
 #define WEBRTC_PARSE_NO_PARAMETERS() \
-	if (zend_parse_parameters_none_throw() == FAILURE) { \
+	if (zend_parse_parameters_none() == FAILURE) { \
 		RETURN_THROWS(); \
 	}
 

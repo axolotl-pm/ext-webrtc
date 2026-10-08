@@ -109,7 +109,11 @@ PHP_FUNCTION(pmmp_webrtc_set_sctp_settings) {
 	zend_long initial_retransmit_timeout = 0;
 	bool initial_retransmit_timeout_is_null = true;
 
+#if PHP_VERSION_ID >= 80600
+	ZEND_PARSE_PARAMETERS_START(0, 5)
+#else
 	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 0, 5)
+#endif
 		Z_PARAM_OPTIONAL
 		Z_PARAM_LONG_OR_NULL(heartbeat_interval, heartbeat_interval_is_null)
 		Z_PARAM_LONG_OR_NULL(max_retransmit_attempts, max_retransmit_attempts_is_null)
