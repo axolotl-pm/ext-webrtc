@@ -67,7 +67,7 @@ ICE_CANDIDATE_METHOD(create) {
 
 	/* an empty line parses into a placeholder candidate rather than failing */
 	if (ZSTR_LEN(candidate) == 0) {
-		zend_argument_value_error(1, "must not be empty");
+		zend_throw_exception(webrtc_exception_ce, "Candidate must not be empty", 0);
 		RETURN_THROWS();
 	}
 

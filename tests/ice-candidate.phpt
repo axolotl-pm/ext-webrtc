@@ -27,7 +27,7 @@ try {
 // has to be turned away before it reaches libdatachannel
 try {
 	IceCandidate::create("");
-} catch (ValueError $e) {
+} catch (WebRtcException $e) {
 	echo $e->getMessage(), PHP_EOL;
 }
 
@@ -43,5 +43,5 @@ string(1) "0"
 bool(true)
 string(5) "video"
 Invalid candidate format
-%smust not be empty
+Candidate must not be empty
 Error
